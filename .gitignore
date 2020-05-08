@@ -2,3 +2,5 @@
 /build
 /env
 /.vscode
+/pydocker/__pycache__/
+

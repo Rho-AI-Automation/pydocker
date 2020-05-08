@@ -9,7 +9,8 @@ def verify_root():
         sys.exit(0)
 
 def docreate():
-    #verify_root()
+    verify_root()
+
     impage_name = input('enter image name: ')
     image_string = None
 
@@ -39,4 +40,4 @@ def docrun():
 
 
 if __name__ == "__main__":
-    doccreate()
+    docreate()
