@@ -8,6 +8,21 @@ def verify_root():
         raise PermissionError('docker needs to run as root')
         sys.exit(0)
 
+def docreate():
+    #verify_root()
+    impage_name = input('enter image name: ')
+    image_string = None
+
+    image_string = f'docker build -t {impage_name} --build-arg device=/dev/net/tun --build-arg sysctl=net.ipv6.conf.all.disable_ipv6=0 .'
+
+    irun = Popen(image_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = irun.communicate()
+    
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout)
+
 
 def docrun():
     verify_root()
@@ -24,4 +39,4 @@ def docrun():
 
 
 if __name__ == "__main__":
-    docrun()
+    doccreate()
