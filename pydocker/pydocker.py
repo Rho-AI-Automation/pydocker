@@ -25,19 +25,43 @@ def docreate():
         print(stdout)
 
 
-def docrun():
+def list_images():
     verify_root()
-    container_name = input('enter container name :')
-    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD rho-ubuntu bash'
+    container_string =  'docker images --format "{{.Repository}}"'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = drun.communicate()
     
     if strerr:
         print(strerr)
     if stdout:
-        print(stdout)
+        print('images found')
+        print('------------')
+        stdout = stdout.decode("utf-8")
+        all_images = str(stdout).split('\\')
+        for im in all_images:
+            print(im.strip())
+        
+
+
+
+def docrun():
+    verify_root()
+    list_images()
+    image_name = input('enter image name: ')
+    container_name = input('enter container name :')
+
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD {image_name} bash'
+    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = drun.communicate()
+    
+    if strerr:
+        print(strerr)
+    if stdout:
+        print('image id')
+        print('---------')
+        print(stdout.decode('utf-8'))
 
 
 
 if __name__ == "__main__":
-    docreate()
+    docrun()
