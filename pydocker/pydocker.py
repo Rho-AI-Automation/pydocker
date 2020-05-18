@@ -123,9 +123,6 @@ def docrun():
     container_name = input('enter container name :')
     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD {image_name} bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
-    
-    input(container_string)
-    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = drun.communicate()
     
     if strerr:
@@ -233,4 +230,4 @@ def watch_folder():
 
 
 if __name__ == "__main__":
-    gscraper_run()
+    docrun()
