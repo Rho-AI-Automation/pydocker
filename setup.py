@@ -13,5 +13,6 @@ setup(
     version='1.2',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
-                                        'dcreate=pydocker.pydocker:docreate']}
+                                        'dcreate=pydocker.pydocker:docreate',
+                                        'doscraper=pydocker.pydocker:gscraper_run']}
 )
