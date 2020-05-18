@@ -119,6 +119,7 @@ def docrun():
     verify_root()
     list_images()
 
+    image_name = input('enter image name :')
     container_name = input('enter container name :')
     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD {image_name} bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
@@ -226,6 +227,10 @@ def gscraper_run():
     print('file olders created')
     docexec_gscrape(buckt_name=container_name)
   
+
+def watch_folder():
+    sub_directs = [x[0] for x in os.walk('.')]
+
 
 if __name__ == "__main__":
     gscraper_run()
