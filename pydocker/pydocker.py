@@ -142,7 +142,7 @@ def docexec_gscrape(buckt_name):
 
     nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = nrun.communicate()
-
+    print('nipchanger executed ,wait 10s to execute gscraper')
     if strerr:
         print(strerr)
     if stdout:
