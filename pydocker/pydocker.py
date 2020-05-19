@@ -5,8 +5,6 @@ import sys
 import json
 
 
-def custom_print(printstring):
-    pass
 
 def create_db_file(dbdata_file_path):
     d_list = ['dbname','user','host','password','ApplicationName']
@@ -225,9 +223,8 @@ def gscraper_run():
     docexec_gscrape(buckt_name=container_name)
   
 
-def watch_folder():
-    sub_directs = [x[0] for x in os.walk('.')]
 
+    
 
 if __name__ == "__main__":
-    docrun()
+    pass
