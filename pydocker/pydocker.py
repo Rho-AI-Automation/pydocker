@@ -158,14 +158,17 @@ def docexec_gscrape(buckt_name):
         print(stdout.decode('utf-8'))
     print('nipchanger executed ,executing gscraper')
     progress_bar()
-    grun = Popen(gscraper_command,shell=True,stdout=PIPE,stderr=PIPE)
-    stdout,strerr = grun.communicate()
+    print('support for insline gscraper due to threads disabled')
+    print('please run gscrape inside screen in docker manualy')
+    print(f'docker exec -it {buckt_name} bash')
+    # grun = Popen(gscraper_command,shell=True,stdout=PIPE,stderr=PIPE)
+    # stdout,strerr = grun.communicate()
    
     
-    if strerr:
-        print(strerr)
-    if stdout:
-        print(stdout.decode('utf-8'))
+    # if strerr:
+    #     print(strerr)
+    # if stdout:
+    #     print(stdout.decode('utf-8'))
 
 
 def create_files_gscrape(container_name='bucket1'):
