@@ -3,7 +3,19 @@ from subprocess import Popen,PIPE
 from pathlib import Path
 import sys
 import json
+from time import sleep
 
+def progress_bar(bar_for=30):
+    done = 0
+    full_bar = 90
+    for idx in range(bar_for):
+        done += int(full_bar/bar_for)
+        not_done = ' ' * (full_bar - done)
+       
+        sys.stdout.write("\r[{}{}]".format('=' * done,not_done))
+        sys.stdout.flush()
+        sleep(1)
+    print('\n')
 
 
 def create_db_file(dbdata_file_path):
@@ -140,12 +152,12 @@ def docexec_gscrape(buckt_name):
 
     nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = nrun.communicate()
-    print('nipchanger executed ,wait 10s to execute gscraper')
     if strerr:
         print(strerr)
     if stdout:
         print(stdout.decode('utf-8'))
-
+    print('nipchanger executed ,executing gscraper')
+    progress_bar()
     grun = Popen(gscraper_command,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = grun.communicate()
    
@@ -227,4 +239,4 @@ def gscraper_run():
     
 
 if __name__ == "__main__":
-    pass
+    gscraper_run()

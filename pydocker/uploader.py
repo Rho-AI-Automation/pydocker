@@ -144,8 +144,6 @@ def watch_folder():
         for html_file in all_html_files:
             link_name = get_link_from_html(link=html_file)
             upload_remote(link_name,html_file)
-
-
         dictdata[directory] = len(all_html_files)
 
     print("{:<30} {:<15}".format('bucket_name','html_count'))
@@ -169,7 +167,7 @@ def watch_folder():
     print('----------')
     for sq,el in enumerate(success_files):
         print(f'{sq}.{el}')
-    print(f'total success upload : {total_passed} total failed upload: {total_failed}')
+    print(f'total success upload : {len(success_files)} total failed upload: {total_failed}')
     print(f'updated on :{datetime.datetime.now()}')
     success_files.clear()
 
