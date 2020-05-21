@@ -34,6 +34,8 @@ Base = declarative_base()
 
 # table local
 
+
+
 class upload_table(Base):
     __tablename__ = 'upload'
     link = Column(String,primary_key=True)
@@ -46,6 +48,7 @@ class RemoteTable(Base):
     pkeyserial = Column(Integer,primary_key=True)
     t_link = Column(String)
     t_status = Column(String)
+    awsurl = Column(String)
 
 
 def create_remote_session():
@@ -73,11 +76,12 @@ def create_local_session():
     localsession = local_session()
 
 
-def update_remote(link):
+def update_remote(link,awsurl):
     data = remotesession.query(RemoteTable).filter(RemoteTable.t_link ==link) #pylint: disable=maybe-no-member
     
     for row in data:
         row.t_status ='UPLOADED'
+        row.awsurl = awsurl
         remotesession.commit() #pylint: disable=maybe-no-member
 
 
@@ -92,11 +96,12 @@ def upload_remote(link,local_file):
     global total_failed
     global failed_files
     global success_files
+    s3_uploaded_link = None
 
     query_res_count = len(list(localsession.query(upload_table.link).filter(upload_table.link==link))) #pylint: disable=maybe-no-member
     
     if query_res_count == 0:
-        correct_upload =  upload_file(local_file,s3_folder,s3_bucket)
+        correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket)
      
   
         if correct_upload:
@@ -107,7 +112,7 @@ def upload_remote(link,local_file):
             localsession.add(new_ua) #pylint: disable=maybe-no-member
             localsession.commit() #pylint: disable=maybe-no-member
             #update the remote db
-            update_remote(link=link)
+            update_remote(link=link,awsurl=s3_uploaded_link)
             success_files.append(local_file)
         else:
             total_failed +=1
