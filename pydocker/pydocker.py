@@ -48,9 +48,7 @@ def create_db_file(dbdata_file_path):
 
 
 def config_file(config_file_path):
-    d_list = ['num_instances','notify_email','recycle_proxy','min_load','max_load','list_country_flags',
-    'num_instances','notify_email','db_table_name','s3_bucket_name','s3_folder','max_req_per_ip',
-    'blocked_text_list','min_time_bet_request','max_time_between_req','is_testing']
+    d_list = ['s3_bucket_name','s3_folder']
 
     jobj = None
     config_file_path = config_file_path
@@ -158,17 +156,19 @@ def docexec_gscrape(buckt_name):
         print(stdout.decode('utf-8'))
     print('nipchanger executed ,executing gscraper')
     progress_bar()
-    print('support for insline gscraper due to threads disabled')
-    print('please run gscrape inside screen in docker manualy')
-    print(f'docker exec -it {buckt_name} bash')
-    # grun = Popen(gscraper_command,shell=True,stdout=PIPE,stderr=PIPE)
-    # stdout,strerr = grun.communicate()
+    # print('support for insline gscraper due to threads disabled')
+    # print('please run gscrape inside screen in docker manualy')
+
+    grun = Popen(gscraper_command,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = grun.communicate()
    
     
-    # if strerr:
-    #     print(strerr)
-    # if stdout:
-    #     print(stdout.decode('utf-8'))
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout.decode('utf-8'))
+
+    print(f'docker exec -it {buckt_name} bash')
 
 
 def create_files_gscrape(container_name='bucket1'):
