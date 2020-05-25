@@ -133,7 +133,8 @@ def close_all_sessions():
 from bs4 import BeautifulSoup
 def get_link_from_html(link):
     with open(link,'r',encoding='utf-8') as f:
-        soup = BeautifulSoup(f.read(),'html.parser')
+        html = f.read()
+        soup = BeautifulSoup(html,'html.parser')
         custom_data_tag = soup.find('div',{'id':'custom_data'})
         link_name = custom_data_tag.find('h2',{'id':'current_url'}).text
         return link_name
