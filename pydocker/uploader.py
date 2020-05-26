@@ -182,7 +182,7 @@ def watch_folder():
     print('----------')
     for sq,el in enumerate(success_files):
         print(f'{sq}.{el}')
-    success_count = success_files + len(success_files) 
+    success_count = success_count + len(success_files) 
     print(f'total success upload : {success_count} total failed upload: {total_failed}')
     print(f'updated on :{datetime.datetime.now()}')
 
