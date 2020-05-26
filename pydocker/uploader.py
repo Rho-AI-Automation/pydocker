@@ -45,8 +45,7 @@ class upload_table(Base):
 connstring_remote = pgconnstring()
 class RemoteTable(Base):
     __tablename__ = 'tbl_misc_links_peoplechecker'
-    pkeyserial = Column(Integer,primary_key=True)
-    t_link = Column(String)
+    t_link = Column(String,primary_key=True)
     t_status = Column(String)
     awsurl = Column(String)
 
@@ -98,12 +97,13 @@ def upload_remote(link,local_file):
     global success_files
     s3_uploaded_link = None
 
+    #query local db to ask if this link was already uploaded or not
+    #if returned 0 it mean it was not uploaded previously and
+    #uploading fresh
     query_res_count = len(list(localsession.query(upload_table.link).filter(upload_table.link==link))) #pylint: disable=maybe-no-member
-    
+
     if query_res_count == 0:
-        correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket)
-     
-  
+        correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket)  
         if correct_upload:
             total_passed += 1
             #if s3 upload is successful then only add the data to local table 
@@ -114,9 +114,11 @@ def upload_remote(link,local_file):
             #update the remote db
             update_remote(link=link,awsurl=s3_uploaded_link)
             success_files.append(local_file)
+            return True
         else:
             total_failed +=1
             failed_files.append(local_file)
+            return False
 
     else:
         return False
@@ -133,7 +135,7 @@ def close_all_sessions():
 from bs4 import BeautifulSoup
 def get_link_from_html(link):
     with open(link,'r',encoding='utf-8') as f:
-        print(f'processing {link}')
+        print(f'processing : {link}')
         html = f.read()
         soup = BeautifulSoup(html,'html.parser')
         custom_data_tag = soup.find('div',{'id':'custom_data'})
@@ -147,10 +149,16 @@ def watch_folder():
     sub_directs = glob.glob("*/")
     dictdata = dict()
     for directory in sub_directs:
-        all_html_files =    glob.glob(os.path.join(directory,'*.html'))
+        all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in all_html_files:
             link_name = get_link_from_html(link=html_file)
-            upload_remote(link_name,html_file)
+            was_uploaded = upload_remote(link_name,html_file)
+
+            input(html_file)
+            if was_uploaded:
+                os.remove(html_file)
+                #delte file after upload to s3
+
         dictdata[directory] = len(all_html_files)
 
     print("{:<30} {:<15}".format('bucket_name','html_count'))
