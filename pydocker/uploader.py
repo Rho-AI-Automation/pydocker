@@ -154,7 +154,7 @@ def watch_folder():
             link_name = get_link_from_html(link=html_file)
             was_uploaded = upload_remote(link_name,html_file)
 
-            input(html_file)
+            
             if was_uploaded:
                 os.remove(html_file)
                 #delte file after upload to s3
