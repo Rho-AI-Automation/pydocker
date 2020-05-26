@@ -130,7 +130,7 @@ def close_all_sessions():
     
     remotesession.close()#pylint: disable=maybe-no-member
     remote_engine.dispose()#pylint: disable=maybe-no-member
-
+success_count = 0
 
 from bs4 import BeautifulSoup
 def get_link_from_html(link):
@@ -142,7 +142,8 @@ def get_link_from_html(link):
         link_name = custom_data_tag.find('h2',{'id':'current_url'}).text
         return link_name
 
-def watch_folder():    
+def watch_folder():
+    global success_count    
     system('clear')
     create_local_session() #open_session
     create_remote_session() #close_session
