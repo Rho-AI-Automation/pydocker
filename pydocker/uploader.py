@@ -223,11 +223,12 @@ def keep_update_loop():
         sleep(10)
 
 def do_force_upload():
+    print('**WARNING FORCE UPLOAD**')
     watch_folder(force_upload=True)
 
 
 if __name__ == "__main__":
     # local_statusfile()
     # insert_local_status()
-    keep_update_loop()
+    do_force_upload()
     #create_remote_session()
