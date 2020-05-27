@@ -37,6 +37,7 @@ Base = declarative_base()
 
 success_count = 0
 old_numbers = 0
+hist_dict = dict()
 
 
 # table local
@@ -152,6 +153,7 @@ def get_link_from_html(link):
 def watch_folder():
     global success_count
     global old_numbers
+    global hist_dict()
     system('clear')
     create_local_session() #open_session
     create_remote_session() #close_session
@@ -170,16 +172,21 @@ def watch_folder():
                 
 
         #keeping the history
-        
-        dictdata[directory] = len(all_html_files) + old_numbers
-        old_numbers = int(dictdata[directory])
+        dictdata[directory] = len(all_html_files)
+     
 
     print("{:<30} {:<15}".format('bucket_name','html_count'))
     print('--------------------------------------------------')
-
+    #history of each folder
     for k,v in dictdata.items():
+        hist_dict[k] = hist_dict.get(k,0) + int(v)
+
+
+    for k,v in hist_dict:
         print ("{:<30} {:<15}".format(k.replace('/',''), v),flush=True)
 
+
+    
     print('******************************************************')
     localsession.commit() #pylint: disable=maybe-no-member
     remotesession.commit() #pylint: disable=maybe-no-member
