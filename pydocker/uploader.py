@@ -112,7 +112,7 @@ def upload_remote(link,local_file):
     query_res_count = len(list(localsession.query(upload_table.link).filter(upload_table.link==link))) #pylint: disable=maybe-no-member
 
     if query_res_count == 0:
-        correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket)  
+        correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket,supress_print=False)  
         if correct_upload:
             total_passed += 1
             #if s3 upload is successful then only add the data to local table 
