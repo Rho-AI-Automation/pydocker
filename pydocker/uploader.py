@@ -32,6 +32,12 @@ remotesession = None
 remote_engine = None
 Base = declarative_base()
 
+
+#global vars
+dictdata = dict()
+success_count = 0
+
+
 # table local
 
 
@@ -97,6 +103,7 @@ def upload_remote(link,local_file):
     global success_files
     s3_uploaded_link = None
 
+
     #query local db to ask if this link was already uploaded or not
     #if returned 0 it mean it was not uploaded previously and
     #uploading fresh
@@ -130,7 +137,7 @@ def close_all_sessions():
     
     remotesession.close()#pylint: disable=maybe-no-member
     remote_engine.dispose()#pylint: disable=maybe-no-member
-success_count = 0
+
 
 from bs4 import BeautifulSoup
 def get_link_from_html(link):
@@ -143,24 +150,28 @@ def get_link_from_html(link):
         return link_name
 
 def watch_folder():
-    global success_count    
+    global success_count
+    global dictdata  
     system('clear')
     create_local_session() #open_session
     create_remote_session() #close_session
     sub_directs = glob.glob("*/")
-    dictdata = dict()
+    
     for directory in sub_directs:
         all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in all_html_files:
             link_name = get_link_from_html(link=html_file)
             was_uploaded = upload_remote(link_name,html_file)
 
-            
+            #delte file after upload to s3
             if was_uploaded:
                 os.remove(html_file)
-                #delte file after upload to s3
+                
 
-        dictdata[directory] = len(all_html_files)
+        #keeping the history
+        
+        dictdata[directory] = len(all_html_files) + old_numbers
+        old_numbers = int(dictdata[directory])
 
     print("{:<30} {:<15}".format('bucket_name','html_count'))
     print('--------------------------------------------------')
