@@ -226,7 +226,9 @@ def keep_update_loop():
         sleep(10)
 
 def do_force_upload():
-    print('**WARNING FORCE UPLOAD**')
+    print('**WARNING FORCE UPLOAD , UPLOAD INFO WILL NOT BE UPDATED TO LOCAL DB**')
+    input("hit enter to continue , Ctr+c to cancel : ")
+
     watch_folder(force_upload=True)
 
 
