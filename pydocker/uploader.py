@@ -182,7 +182,7 @@ def watch_folder():
         hist_dict[k] = hist_dict.get(k,0) + int(v)
 
 
-    for k,v in hist_dict:
+    for k,v in hist_dict.items():
         print ("{:<30} {:<15}".format(k.replace('/',''), v),flush=True)
 
 
