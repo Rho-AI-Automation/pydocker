@@ -153,7 +153,7 @@ def get_link_from_html(link):
 def watch_folder():
     global success_count
     global old_numbers
-    global hist_dict()
+    global hist_dict
     system('clear')
     create_local_session() #open_session
     create_remote_session() #close_session
