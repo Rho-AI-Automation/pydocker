@@ -124,10 +124,13 @@ def upload_remote(link,local_file,force_upload):
             total_passed += 1
             #if s3 upload is successful then only add the data to local table 
             #and update remote table
-            new_ua = upload_table(link=link,updatedon=datetime.datetime.now())
-            localsession.add(new_ua) #pylint: disable=maybe-no-member
-            localsession.commit() #pylint: disable=maybe-no-member
+            #but do not do this if force upload is set to true
+            if force_upload == False:
+                new_ua = upload_table(link=link,updatedon=datetime.datetime.now())
+                localsession.add(new_ua) #pylint: disable=maybe-no-member
+                localsession.commit() #pylint: disable=maybe-no-member
             #update the remote db
+            #update the remove anyways
             update_remote(link=link,awsurl=s3_uploaded_link)
             success_files.append(local_file)
             return True
