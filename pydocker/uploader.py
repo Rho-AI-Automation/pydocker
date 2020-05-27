@@ -94,7 +94,7 @@ def update_remote(link,awsurl):
         remotesession.commit() #pylint: disable=maybe-no-member
 
 
-def upload_remote(link,local_file,force_upload=True):
+def upload_remote(link,local_file,force_upload):
     """
     tries to insert the link to local db, if already present 
     then do nothing but if insert is successufl , update the status
@@ -156,7 +156,7 @@ def get_link_from_html(link):
         link_name = custom_data_tag.find('h2',{'id':'current_url'}).text
         return link_name
 
-def watch_folder():
+def watch_folder(force_upload=True):
     global success_count
     global old_numbers
     global hist_dict
@@ -170,7 +170,7 @@ def watch_folder():
         all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in all_html_files:
             link_name = get_link_from_html(link=html_file)
-            was_uploaded = upload_remote(link_name,html_file,False)
+            was_uploaded = upload_remote(link_name,html_file,force_upload)
 
             #delte file after upload to s3
             if was_uploaded:
@@ -219,9 +219,11 @@ def watch_folder():
 
 def keep_update_loop():
     while True:
-        watch_folder()
+        watch_folder(force_upload=False)
         sleep(10)
 
+def do_force_upload():
+    watch_folder(force_upload=True)
 
 
 if __name__ == "__main__":

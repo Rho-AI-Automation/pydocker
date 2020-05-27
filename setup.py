@@ -10,10 +10,11 @@ import sys
 
 setup(
     name='pydocker',
-    version='1.4',
+    version='1.5',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
                                         'dcreate=pydocker.pydocker:docreate',
                                         'doscraper=pydocker.pydocker:gscraper_run',
-                                        'dupload=pydocker.uploader:keep_update_loop']}
+                                        'dupload=pydocker.uploader:keep_update_loop',
+                                        'fupload=pydocker.uploader:def do_force_upload']}
 )
