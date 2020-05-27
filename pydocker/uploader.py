@@ -34,8 +34,9 @@ Base = declarative_base()
 
 
 #global vars
-dictdata = dict()
+
 success_count = 0
+old_numbers = 0
 
 
 # table local
@@ -150,12 +151,13 @@ def get_link_from_html(link):
 
 def watch_folder():
     global success_count
-    global dictdata  
+    global old_numbers
     system('clear')
     create_local_session() #open_session
     create_remote_session() #close_session
     sub_directs = glob.glob("*/")
     
+    dictdata = dict()
     for directory in sub_directs:
         all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in all_html_files:
