@@ -95,7 +95,7 @@ def docreate():
     impage_name = input('enter image name: ')
     image_string = None
 
-    image_string = f'docker build -t {impage_name} --build-arg device=/dev/net/tun --build-arg sysctl=net.ipv6.conf.all.disable_ipv6=0 .'
+    image_string = f'docker build --no-cache -t {impage_name} --build-arg device=/dev/net/tun --build-arg sysctl=net.ipv6.conf.all.disable_ipv6=0 .'
 
     irun = Popen(image_string,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = irun.communicate()
