@@ -71,6 +71,8 @@ def create_remote_session():
 
 
 
+
+
 def create_local_session():
     #local engine and session
     global localsession
@@ -92,11 +94,13 @@ def update_remote(link,awsurl):
         remotesession.commit() #pylint: disable=maybe-no-member
 
 
-def upload_remote(link,local_file):
+def upload_remote(link,local_file,force_upload=True):
     """
     tries to insert the link to local db, if already present 
     then do nothing but if insert is successufl , update the status
     on remote db
+    setting up force upload to true by default becaue this function is not meant to be called
+    by user directly
 
     """
     global total_passed
@@ -111,7 +115,10 @@ def upload_remote(link,local_file):
     #uploading fresh
     query_res_count = len(list(localsession.query(upload_table.link).filter(upload_table.link==link))) #pylint: disable=maybe-no-member
 
-    if query_res_count == 0:
+    #force uplod will ignore the local status
+    #and uplod to s3 
+    
+    if (query_res_count == 0)  or (force_upload == True ):
         correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket,supress_print=False)  
         if correct_upload:
             total_passed += 1
@@ -128,7 +135,6 @@ def upload_remote(link,local_file):
             total_failed +=1
             failed_files.append(local_file)
             return False
-
     else:
         return False
 
@@ -164,7 +170,7 @@ def watch_folder():
         all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in all_html_files:
             link_name = get_link_from_html(link=html_file)
-            was_uploaded = upload_remote(link_name,html_file)
+            was_uploaded = upload_remote(link_name,html_file,False)
 
             #delte file after upload to s3
             if was_uploaded:
@@ -215,7 +221,6 @@ def keep_update_loop():
     while True:
         watch_folder()
         sleep(10)
-
 
 
 
