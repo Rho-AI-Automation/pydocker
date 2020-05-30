@@ -16,5 +16,6 @@ setup(
                                         'dcreate=pydocker.pydocker:docreate',
                                         'doscraper=pydocker.pydocker:gscraper_run',
                                         'dupload=pydocker.uploader:keep_update_loop',
-                                        'fupload=pydocker.uploader:do_force_upload']}
+                                        'fupload=pydocker.uploader:do_force_upload',
+                                        'uchecker=pydocker.pydocker:pchecker_run']}
 )
