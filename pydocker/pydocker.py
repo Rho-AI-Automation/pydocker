@@ -171,6 +171,35 @@ def docexec_gscrape(buckt_name):
     print(f'docker exec -it {buckt_name} bash')
 
 
+def docexec_ucheck(buckt_name):
+    
+    bucket_path = os.path.join(os.getcwd(),buckt_name)
+    nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m nipchanger'
+    gscraper_command = f"docker exec -w {bucket_path} {buckt_name} screen -S scraper -d -m ucheck"
+
+    nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = nrun.communicate()
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout.decode('utf-8'))
+    print('nipchanger executed ,executing url checker')
+    progress_bar()
+    # print('support for insline gscraper due to threads disabled')
+    # print('please run gscrape inside screen in docker manualy')
+
+    grun = Popen(gscraper_command,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = grun.communicate()
+   
+    
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout.decode('utf-8'))
+
+    print(f'docker exec -it {buckt_name} bash')
+
+
 def create_files_gscrape(container_name='bucket1'):
     
     #create bucket folder
@@ -236,10 +265,36 @@ def gscraper_run():
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     docexec_gscrape(buckt_name=container_name)
+
+
+def pchecker_run():
+    
+    verify_root()
+    container_name = input('enter bucket name :')
+    bucket_folder = os.path.join(os.getcwd(),container_name)
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} rho-ubuntu bash'
+    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = drun.communicate()
+
+    if strerr:
+        print(strerr)
+        print('\n')
+        print('bucket already created, you must run commands manually inside it or stop bucket')
+        raise ValueError('error while creating container')
+    if stdout:
+        print('image id')
+        print('---------')
+        print(stdout.decode('utf-8'))
+
+
+   
+    create_files_gscrape(container_name=container_name)
+    print('file olders created')
+    docexec_ucheck(buckt_name=container_name)
   
 
 
     
 
 if __name__ == "__main__":
-    gscraper_run()
+    pchecker_run()
