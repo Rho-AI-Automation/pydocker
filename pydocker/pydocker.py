@@ -4,6 +4,8 @@ from pathlib import Path
 import sys
 import json
 from time import sleep
+import click
+
 
 def progress_bar(bar_for=30):
     done = 0
@@ -142,13 +144,9 @@ def docrun():
 
 
 
-def docexec_gscrape(buckt_name):
-
-
-
-
+def docexec_gscrape(buckt_name,vpnserver='vipchanger'):
     bucket_path = os.path.join(os.getcwd(),buckt_name)
-    nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m vipchanger'
+    nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m {vpnserver}'
     gscraper_command = f"docker exec -w {bucket_path} {buckt_name} screen -S scraper -d -m gscrape"
 
     nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
@@ -157,7 +155,7 @@ def docexec_gscrape(buckt_name):
         print(strerr)
     if stdout:
         print(stdout.decode('utf-8'))
-    print('nipchanger executed ,executing gscraper')
+    print(f'{vpnserver} executed ,executing gscraper')
     progress_bar()
     # print('support for insline gscraper due to threads disabled')
     # print('please run gscrape inside screen in docker manualy')
@@ -244,8 +242,9 @@ def create_files_gscrape(container_name='bucket1'):
             f.write(password)
 
 
-def gscraper_run():
-    
+@click.command()
+@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
+def gscraper_run(vpn):
     verify_root()
     container_name = input('enter bucket name :')
     bucket_folder = os.path.join(os.getcwd(),container_name)
@@ -267,10 +266,10 @@ def gscraper_run():
    
     create_files_gscrape(container_name=container_name)
     print('file olders created')
-    docexec_gscrape(buckt_name=container_name)
+    docexec_gscrape(buckt_name=container_name,vpnserver=vpn)
 
 
-def pchecker_run():
+def uchecker_run():
     
     verify_root()
     container_name = input('enter bucket name :')
@@ -296,8 +295,5 @@ def pchecker_run():
     docexec_ucheck(buckt_name=container_name)
   
 
-def bunch_pcker():
-    num_ins = input('number of instances: ')    
-
 if __name__ == "__main__":
-    pchecker_run()
+    gscraper_run()
