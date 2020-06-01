@@ -144,7 +144,7 @@ def docrun():
 
 
 
-def docexec_gscrape(buckt_name,vpnserver='vipchanger'):
+def docexec_gscrape(buckt_name,vpnserver):
     bucket_path = os.path.join(os.getcwd(),buckt_name)
     nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m {vpnserver}'
     gscraper_command = f"docker exec -w {bucket_path} {buckt_name} screen -S scraper -d -m gscrape"
@@ -172,10 +172,10 @@ def docexec_gscrape(buckt_name,vpnserver='vipchanger'):
     print(f'docker exec -it {buckt_name} bash')
 
 
-def docexec_ucheck(buckt_name):
+def docexec_ucheck(buckt_name,vpnserver):
     
     bucket_path = os.path.join(os.getcwd(),buckt_name)
-    nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m nipchanger'
+    nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m {vpnserver}'
     gscraper_command = f"docker exec -w {bucket_path} {buckt_name} screen -S scraper -d -m ucheck"
 
     nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
@@ -184,7 +184,7 @@ def docexec_ucheck(buckt_name):
         print(strerr)
     if stdout:
         print(stdout.decode('utf-8'))
-    print('nipchanger executed ,executing url checker')
+    print('{vpnserver} executed ,executing url checker')
     progress_bar()
     # print('support for insline gscraper due to threads disabled')
     # print('please run gscrape inside screen in docker manualy')
@@ -268,8 +268,9 @@ def gscraper_run(vpn):
     print('file olders created')
     docexec_gscrape(buckt_name=container_name,vpnserver=vpn)
 
-
-def uchecker_run():
+@click.command()
+@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
+def uchecker_run(vpn):
     
     verify_root()
     container_name = input('enter bucket name :')
@@ -292,7 +293,7 @@ def uchecker_run():
    
     create_files_gscrape(container_name=container_name)
     print('file olders created')
-    docexec_ucheck(buckt_name=container_name)
+    docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
   
 
 if __name__ == "__main__":
