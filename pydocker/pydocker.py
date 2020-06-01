@@ -143,9 +143,12 @@ def docrun():
 
 
 def docexec_gscrape(buckt_name):
-    
+
+
+
+
     bucket_path = os.path.join(os.getcwd(),buckt_name)
-    nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m nipchanger'
+    nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m vipchanger'
     gscraper_command = f"docker exec -w {bucket_path} {buckt_name} screen -S scraper -d -m gscrape"
 
     nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
@@ -293,8 +296,8 @@ def pchecker_run():
     docexec_ucheck(buckt_name=container_name)
   
 
-
-    
+def bunch_pcker():
+    num_ins = input('number of instances: ')    
 
 if __name__ == "__main__":
     pchecker_run()
