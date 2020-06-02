@@ -268,12 +268,10 @@ def gscraper_run(vpn):
     print('file olders created')
     docexec_gscrape(buckt_name=container_name,vpnserver=vpn)
 
-@click.command()
-@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
-def uchecker_run(vpn):
+
+def uchecker_run(vpn,container_name):
     
     verify_root()
-    container_name = input('enter bucket name :')
     bucket_folder = os.path.join(os.getcwd(),container_name)
     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} rho-ubuntu bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
@@ -294,7 +292,20 @@ def uchecker_run(vpn):
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
-  
+
+@click.command()
+@click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
+def bulk_ucheck(vpn):
+    num_ins = int(input('number of containers you want to run: '))
+    for i in range(1,num_ins+1):
+        base_bucket = 'bucket'+str(i)
+        uchecker_run(vpn=vpn,container_name=base_bucket)
+        input(base_bucket)
+
+
+
+
+
 
 if __name__ == "__main__":
-    gscraper_run()
+    bulk_ucheck()
