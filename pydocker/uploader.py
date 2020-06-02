@@ -149,14 +149,20 @@ def close_all_sessions():
     remotesession.close()#pylint: disable=maybe-no-member
     remote_engine.dispose()#pylint: disable=maybe-no-member
 
-
+import sys
 from bs4 import BeautifulSoup
 def get_link_from_html(link):
     with open(link,'rb') as f:
         html = f.read()
         soup = BeautifulSoup(html,'html.parser')
         custom_data_tag = soup.find('div',{'id':'custom_data'})
-        link_name = custom_data_tag.find('h2',{'id':'current_url'}).text
+        try:
+            link_name = custom_data_tag.find('h2',{'id':'current_url'}).text
+        except Exception as e:
+            print(e)
+            print(link)
+            sys.exit(1)
+        
         return link_name
 
 def watch_folder(force_upload=True):
