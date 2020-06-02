@@ -18,7 +18,7 @@ from pydocker import config_file
 jobj = config_file('config.json')
 s3_bucket = jobj['s3_bucket_name']
 s3_folder = jobj['s3_folder']
-
+table_name = jobj['db_table_name']
 total_passed = 0
 total_failed = 0
 
@@ -52,7 +52,7 @@ class upload_table(Base):
 #table remote
 connstring_remote = pgconnstring()
 class RemoteTable(Base):
-    __tablename__ = 'tbl_misc_links_peoplechecker'
+    __tablename__ = table_name
     t_link = Column(String,primary_key=True)
     t_status = Column(String)
     awsurl = Column(String)
