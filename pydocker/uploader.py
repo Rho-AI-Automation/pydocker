@@ -65,7 +65,7 @@ def create_remote_session():
     conn_string_remote = pgconnstring()
     remote_engine = create_engine(conn_string_remote,echo=False)
     remote_session = sessionmaker(bind=remote_engine)
-    table_objects = [Base.metadata.tables['tbl_misc_links_peoplechecker']]
+    table_objects = [Base.metadata.tables[table_name]]
     Base.metadata.create_all(remote_engine,tables=table_objects)
     remotesession = remote_session()
 
