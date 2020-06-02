@@ -152,7 +152,7 @@ def close_all_sessions():
 
 from bs4 import BeautifulSoup
 def get_link_from_html(link):
-    with open(link,'r',encoding='utf-8') as f:
+    with open(link,'rb') as f:
         html = f.read()
         soup = BeautifulSoup(html,'html.parser')
         custom_data_tag = soup.find('div',{'id':'custom_data'})
@@ -235,5 +235,6 @@ def do_force_upload():
 if __name__ == "__main__":
     # local_statusfile()
     # insert_local_status()
-    do_force_upload()
+    #do_force_upload()
     #create_remote_session()
+    keep_update_loop()
