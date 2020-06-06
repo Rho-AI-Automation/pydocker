@@ -172,6 +172,21 @@ def docexec_gscrape(buckt_name,vpnserver):
     print(f'docker exec -it {buckt_name} bash')
 
 
+def doc_exec_sel_run(buckt_name):
+    all_ports = [54420,54421,54422,54423,54424]
+
+    for port in all_ports:
+        print(f'selenium on port {port}')
+        selenium_command = f'docker exec {buckt_name} screen -S  runsel -d -m runsel {port}'
+        nrun = Popen(selenium_command,shell=True,stdout=PIPE,stderr=PIPE)
+        stdout,strerr = nrun.communicate()
+        if strerr:
+            print(strerr)
+        if stdout:
+            print(stdout.decode('utf-8'))
+
+
+
 def docexec_ucheck(buckt_name,vpnserver):
     
     bucket_path = os.path.join(os.getcwd(),buckt_name)
@@ -292,6 +307,7 @@ def uchecker_run(vpn,container_name):
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
+    doc_exec_sel_run(container_name)
 
 @click.command()
 @click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
@@ -308,4 +324,6 @@ def bulk_ucheck(vpn):
 
 
 if __name__ == "__main__":
+    # bulk_ucheck()
+    # doc_exec_sel_run('bucket1')
     bulk_ucheck()
