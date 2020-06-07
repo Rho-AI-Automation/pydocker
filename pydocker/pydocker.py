@@ -316,7 +316,7 @@ def bulk_ucheck(vpn):
     for i in range(1,num_ins+1):
         base_bucket = 'bucket'+str(i)
         uchecker_run(vpn=vpn,container_name=base_bucket)
-        input(base_bucket)
+
 
 
 
