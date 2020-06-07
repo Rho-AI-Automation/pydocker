@@ -199,7 +199,7 @@ def docexec_ucheck(buckt_name,vpnserver):
         print(strerr)
     if stdout:
         print(stdout.decode('utf-8'))
-    print('{vpnserver} executed ,executing url checker')
+    print(f'{vpnserver} executed ,executing url checker')
     progress_bar()
     # print('support for insline gscraper due to threads disabled')
     # print('please run gscrape inside screen in docker manualy')
