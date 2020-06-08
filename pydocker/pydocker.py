@@ -173,7 +173,8 @@ def docexec_gscrape(buckt_name,vpnserver):
 
 
 def doc_exec_sel_run(buckt_name):
-    all_ports = [54420,54421,54422,54423,54424]
+    #all_ports = [54420,54421,54422,54423,54424]
+    all_ports = [54420]
 
     for port in all_ports:
         print(f'selenium on port {port}')
@@ -307,7 +308,7 @@ def uchecker_run(vpn,container_name):
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
-    # doc_exec_sel_run(container_name)
+    doc_exec_sel_run(container_name)
 
 @click.command()
 @click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
