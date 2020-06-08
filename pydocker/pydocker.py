@@ -307,7 +307,7 @@ def uchecker_run(vpn,container_name):
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
-    doc_exec_sel_run(container_name)
+    # doc_exec_sel_run(container_name)
 
 @click.command()
 @click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
