@@ -87,12 +87,18 @@ def create_local_session():
 
 def update_remote(link,awsurl):
     data = remotesession.query(RemoteTable).filter(RemoteTable.t_link ==link) #pylint: disable=maybe-no-member
+    all_rows = list(data)
+    
+    if len(all_rows) == 0:
+        return False
+
     
     for row in data:
+
         row.t_status ='UPLOADED'
         row.awsurl = awsurl
         remotesession.commit() #pylint: disable=maybe-no-member
-
+    return True
 
 def upload_remote(link,local_file,force_upload):
     """
@@ -131,9 +137,14 @@ def upload_remote(link,local_file,force_upload):
                 localsession.commit() #pylint: disable=maybe-no-member
             #update the remote db
             #update the remove anyways
-            update_remote(link=link,awsurl=s3_uploaded_link)
-            success_files.append(local_file)
-            return True
+            update_remote_stat = update_remote(link=link,awsurl=s3_uploaded_link)
+            if update_remote_stat == True:
+                success_files.append(local_file)
+                return True
+            else:
+                failed_files.append(local_file)
+                total_failed +=1
+                return False
         else:
             total_failed +=1
             failed_files.append(local_file)
