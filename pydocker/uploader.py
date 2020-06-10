@@ -234,13 +234,12 @@ def watch_folder(force_upload=True):
 
     success_files.clear()
 
-    
-
-
 def keep_update_loop():
+    wait_time = int(input('delay between upload : '))
     while True:
         watch_folder(force_upload=False)
-        sleep(10)
+        print('delay executing')
+        sleep(wait_time)
 
 def do_force_upload():
     print('**WARNING FORCE UPLOAD , UPLOAD INFO WILL NOT BE UPDATED TO LOCAL DB**')

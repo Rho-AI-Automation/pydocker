@@ -187,6 +187,18 @@ def doc_exec_sel_run(buckt_name):
             print(stdout.decode('utf-8'))
 
 
+def doc_exec_splash_run(buckt_name):
+
+    selenium_command = f'docker exec {buckt_name} screen -S  runsplash -d -m runsplash'
+    nrun = Popen(selenium_command,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = nrun.communicate()
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout.decode('utf-8'))
+
+
+
 
 def docexec_ucheck(buckt_name,vpnserver):
     
@@ -309,6 +321,7 @@ def uchecker_run(vpn,container_name):
     print('file olders created')
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
     doc_exec_sel_run(container_name)
+    doc_exec_splash_run(container_name)
 
 @click.command()
 @click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
