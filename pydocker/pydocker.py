@@ -178,7 +178,7 @@ def doc_exec_sel_run(buckt_name):
 
     for port in all_ports:
         print(f'selenium on port {port}')
-        selenium_command = f'docker exec {buckt_name} screen -S  runsel -d -m runsel {port}'
+        selenium_command = f'docker exec {buckt_name} screen -S  runsel -d -m runselbucket'
         nrun = Popen(selenium_command,shell=True,stdout=PIPE,stderr=PIPE)
         stdout,strerr = nrun.communicate()
         if strerr:
@@ -320,7 +320,9 @@ def uchecker_run(vpn,container_name):
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
+    print('running selenium')
     doc_exec_sel_run(container_name)
+    print('running splash')
     doc_exec_splash_run(container_name)
 
 @click.command()
