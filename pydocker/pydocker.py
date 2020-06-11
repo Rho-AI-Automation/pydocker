@@ -188,7 +188,6 @@ def doc_exec_sel_run(buckt_name):
 
 
 def doc_exec_splash_run(buckt_name):
-
     selenium_command = f'docker exec {buckt_name} screen -S  runsplash -d -m runsplash'
     nrun = Popen(selenium_command,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = nrun.communicate()
@@ -320,10 +319,11 @@ def uchecker_run(vpn,container_name):
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
-    print('running selenium')
-    doc_exec_sel_run(container_name)
-    print('running splash')
-    doc_exec_splash_run(container_name)
+    print('urlchecker with CURL only executed')
+    # print('running selenium')
+    # doc_exec_sel_run(container_name)
+    # print('running splash')
+    # doc_exec_splash_run(container_name)
 
 @click.command()
 @click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
@@ -332,11 +332,6 @@ def bulk_ucheck(vpn):
     for i in range(1,num_ins+1):
         base_bucket = 'bucket'+str(i)
         uchecker_run(vpn=vpn,container_name=base_bucket)
-
-
-
-
-
 
 
 if __name__ == "__main__":
