@@ -330,7 +330,7 @@ def uchecker_run(vpn,container_name):
 def bulk_ucheck(vpn):
     num_ins = int(input('number of containers you want to run: '))
     for i in range(1,num_ins+1):
-        base_bucket = 'bucket_uc'+str(i)
+        base_bucket = 'bucket_uc_'+str(i)
         uchecker_run(vpn=vpn,container_name=base_bucket)
 
 
