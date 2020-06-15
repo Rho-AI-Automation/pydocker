@@ -5,6 +5,7 @@ import sys
 import json
 from time import sleep
 import click
+import subprocess
 
 
 def progress_bar(bar_for=30):
@@ -197,8 +198,6 @@ def doc_exec_splash_run(buckt_name):
         print(stdout.decode('utf-8'))
 
 
-
-
 def docexec_ucheck(buckt_name,vpnserver):
     
     bucket_path = os.path.join(os.getcwd(),buckt_name)
@@ -325,6 +324,51 @@ def uchecker_run(vpn,container_name):
     # print('running splash')
     # doc_exec_splash_run(container_name)
 
+
+@click.command()
+@click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
+@click.option('--bucketname', default='bucket_render', help='bucket name')
+def uchecker_render(vpn,bucketname):
+    container_name = bucketname
+    vpnserver = vpn
+    
+    verify_root()
+    bucket_folder = os.path.join(os.getcwd(),container_name)
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} rho-ubuntu bash'
+    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = drun.communicate()
+
+    if strerr:
+        print(strerr)
+        print('\n')
+        print('bucket already created, you must run commands manually inside it or stop bucket')
+        raise ValueError('error while creating container')
+    if stdout:
+        print('image id')
+        print('---------')
+        print(stdout.decode('utf-8'))
+
+   
+    create_files_gscrape(container_name=container_name)
+    print('file olders created')
+
+    nipchanger_command = f'docker exec {container_name} screen -S vpn -d -m {vpnserver}'
+
+    nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = nrun.communicate()
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout.decode('utf-8'))
+    print(f'{vpnserver} executed ,executing url checker')
+    progress_bar()
+    print('running selenium')
+    doc_exec_sel_run(container_name)
+    print('running splash')
+    doc_exec_splash_run(container_name)
+
+
+
 @click.command()
 @click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
 def bulk_ucheck(vpn):
@@ -333,6 +377,7 @@ def bulk_ucheck(vpn):
         base_bucket = 'bucket_uc_'+str(i)
         uchecker_run(vpn=vpn,container_name=base_bucket)
 
+    #rendering engline
 
 
 
@@ -340,4 +385,5 @@ def bulk_ucheck(vpn):
 if __name__ == "__main__":
     # bulk_ucheck()
     # doc_exec_sel_run('bucket1')
-    bulk_ucheck()
+    # bulk_ucheck()
+    uchecker_render()
