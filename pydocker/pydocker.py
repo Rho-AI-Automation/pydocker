@@ -198,6 +198,18 @@ def doc_exec_splash_run(buckt_name):
         print(stdout.decode('utf-8'))
 
 
+def doc_exec_single_run(buckt_name):
+    selenium_command = f'docker exec {buckt_name} screen -S  runsingle -d -m runsinglebuckt'
+    nrun = Popen(selenium_command,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = nrun.communicate()
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout.decode('utf-8'))
+
+
+
+
 def docexec_ucheck(buckt_name,vpnserver):
     
     bucket_path = os.path.join(os.getcwd(),buckt_name)
@@ -370,7 +382,10 @@ def uchecker_render(vpn,bucketname):
     doc_exec_sel_run(container_name)
     print('running splash')
     doc_exec_splash_run(container_name)
+    print('running single file')
+    doc_exec_splash_run(container_name)
 
+    
 
 
 @click.command()
