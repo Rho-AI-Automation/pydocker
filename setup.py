@@ -17,5 +17,6 @@ setup(
                                         'doscraper=pydocker.pydocker:gscraper_run',
                                         'dupload=pydocker.uploader:keep_update_loop',
                                         'fupload=pydocker.uploader:do_force_upload',
-                                        'uchecker=pydocker.pydocker:bulk_ucheck']}
+                                        'uchecker=pydocker.pydocker:bulk_ucheck',
+                                        'urender=pydocker.pydocker:uchecker_render']}
 )
