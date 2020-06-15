@@ -335,8 +335,7 @@ def uchecker_render(vpn,bucketname):
 
     
     Popen('rsplash',shell=True)
-    print('starting splash containers')
-    progress_bar(bar_for=10)
+
 
     bucket_folder = os.path.join(os.getcwd(),container_name)
     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} rho-ubuntu bash'
