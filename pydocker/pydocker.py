@@ -383,7 +383,7 @@ def uchecker_render(vpn,bucketname):
     print('running splash')
     doc_exec_splash_run(container_name)
     print('running single file')
-    doc_exec_splash_run(container_name)
+    doc_exec_single_run(container_name)
 
     
 
