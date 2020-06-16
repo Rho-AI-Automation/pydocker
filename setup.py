@@ -17,5 +17,6 @@ setup(
                                         'fupload=pydocker.uploader:do_force_upload',
                                         'uchecker=pydocker.pydocker:bulk_ucheck',
                                         'urender=pydocker.pydocker:uchecker_render',
-                                        'keepsplash=pydocker.splashim:keep_splash_running']}
+                                        'keepsplash=pydocker.splashim:keep_splash_running',
+                                        'stopsplash=pydocker.splashim:stop_all_splash']}
 )
