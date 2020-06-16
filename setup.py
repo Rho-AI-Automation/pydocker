@@ -6,8 +6,6 @@ from glob import glob
 import os
 import sys
 
-
-
 setup(
     name='pydocker',
     version='1.8',
