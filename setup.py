@@ -10,7 +10,7 @@ import sys
 
 setup(
     name='pydocker',
-    version='1.7',
+    version='1.8',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
                                         'dcreate=pydocker.pydocker:docreate',
@@ -18,5 +18,6 @@ setup(
                                         'dupload=pydocker.uploader:keep_update_loop',
                                         'fupload=pydocker.uploader:do_force_upload',
                                         'uchecker=pydocker.pydocker:bulk_ucheck',
-                                        'urender=pydocker.pydocker:uchecker_render']}
+                                        'urender=pydocker.pydocker:uchecker_render',
+                                        'keepsplash=pydocker.splashim:keep_splash_running']}
 )
