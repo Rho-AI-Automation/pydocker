@@ -193,6 +193,7 @@ def watch_folder(force_upload=True):
 
             if link_name == 'ERROR':
                 print(f'error in {html_file} ')
+                
                 continue
             was_uploaded = upload_remote(link_name,html_file,force_upload)
 
