@@ -406,7 +406,7 @@ def bulk_gscrape():
     bucket_count = int(input('Enter bucket count: '))
     
     for i in range(1,bucket_count+1):
-        base_bucket = 'bucket_uc_'+str(i)
+        base_bucket = 'bucket'+str(i)
         gscraper_run(container_name=base_bucket)
     
 
