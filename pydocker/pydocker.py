@@ -280,11 +280,13 @@ def create_files_gscrape(container_name='bucket1'):
             f.write(password)
 
 
-@click.command()
-@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
-def gscraper_run(vpn):
+
+def gscraper_run(vpn='vipchanger',container_name=None):
+
+    if container_name is None:
+        container_name = input('Enter Container Name : ')
+
     verify_root()
-    container_name = input('enter bucket name :')
     bucket_folder = os.path.join(os.getcwd(),container_name)
     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} rho-ubuntu bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
@@ -399,6 +401,14 @@ def bulk_ucheck(vpn):
     #rendering engline
 
 
+
+def bulk_gscrape():
+    bucket_count = int(input('Enter bucket count: '))
+    
+    for i in range(1,bucket_count+1):
+        base_bucket = 'bucket_uc_'+str(i)
+        gscraper_run(container_name=base_bucket)
+    
 
 
 if __name__ == "__main__":

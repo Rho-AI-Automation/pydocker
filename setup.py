@@ -8,7 +8,7 @@ import sys
 
 setup(
     name='pydocker',
-    version='1.8',
+    version='1.9',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
                                         'dcreate=pydocker.pydocker:docreate',
@@ -18,5 +18,6 @@ setup(
                                         'uchecker=pydocker.pydocker:bulk_ucheck',
                                         'urender=pydocker.pydocker:uchecker_render',
                                         'keepsplash=pydocker.splashim:keep_splash_running',
-                                        'stopsplash=pydocker.splashim:stop_all_splash']}
+                                        'stopsplash=pydocker.splashim:stop_all_splash',
+                                        'bulkpcheck=pydocker.pydocker:bulk_gscrape']}
 )
