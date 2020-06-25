@@ -189,6 +189,7 @@ def watch_folder(force_upload=True):
     for directory in sub_directs:
         all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in all_html_files:
+            print(f'uploading {html_file}')
             link_name = get_link_from_html(link=html_file)
 
             if link_name == 'ERROR':
