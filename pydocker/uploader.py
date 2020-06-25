@@ -86,9 +86,11 @@ def create_local_session():
 
 
 def update_remote(link,awsurl):
+
     data = remotesession.query(RemoteTable).filter(RemoteTable.t_link ==link) #pylint: disable=maybe-no-member
     all_rows = list(data)
     
+
     if len(all_rows) == 0:
         return False
 
@@ -125,7 +127,7 @@ def upload_remote(link,local_file,force_upload):
     #and uplod to s3 
     
     if (query_res_count == 0)  or (force_upload == True ):
-        correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket,supress_print=False)  
+        correct_upload,s3_uploaded_link =  upload_file(local_file,s3_folder,s3_bucket,supress_print=False)
         if correct_upload:
             total_passed += 1
             #if s3 upload is successful then only add the data to local table 
@@ -165,7 +167,8 @@ from bs4 import BeautifulSoup
 def get_link_from_html(link):
     with open(link,'rb') as f:
         html = f.read()
-        soup = BeautifulSoup(html,'html.parser')
+
+        soup = BeautifulSoup(html,'lxml')
         custom_data_tag = soup.find('div',{'id':'custom_data'})
         try:
             link_name = custom_data_tag.find('h2',{'id':'current_url'}).text
