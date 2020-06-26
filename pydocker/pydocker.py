@@ -400,8 +400,6 @@ def bulk_ucheck(vpn):
 
     #rendering engline
 
-
-
 def bulk_gscrape():
     bucket_count = int(input('Enter bucket count: '))
     

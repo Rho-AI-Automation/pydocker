@@ -46,14 +46,15 @@ hist_dict = dict()
 
 class upload_table(Base):
     __tablename__ = 'upload'
-    link = Column(String,primary_key=True)
+    t_serial = Column(Integer,primary_key=True)
     updatedon  = Column(String)
+
 
 #table remote
 connstring_remote = pgconnstring()
 class RemoteTable(Base):
     __tablename__ = table_name
-    t_link = Column(String,primary_key=True)
+    t_serial = Column(Integer,primary_key=True)
     t_status = Column(String)
     awsurl = Column(String)
 
@@ -87,7 +88,7 @@ def create_local_session():
 
 def update_remote(link,awsurl):
 
-    data = remotesession.query(RemoteTable).filter(RemoteTable.t_link ==link) #pylint: disable=maybe-no-member
+    data = remotesession.query(RemoteTable).filter(RemoteTable.t_serial ==link) #pylint: disable=maybe-no-member
     all_rows = list(data)
     
 
@@ -121,7 +122,7 @@ def upload_remote(link,local_file,force_upload):
     #query local db to ask if this link was already uploaded or not
     #if returned 0 it mean it was not uploaded previously and
     #uploading fresh
-    query_res_count = len(list(localsession.query(upload_table.link).filter(upload_table.link==link))) #pylint: disable=maybe-no-member
+    query_res_count = len(list(localsession.query(upload_table.t_serial).filter(upload_table.t_serial==link))) #pylint: disable=maybe-no-member
 
     #force uplod will ignore the local status
     #and uplod to s3 
@@ -134,7 +135,8 @@ def upload_remote(link,local_file,force_upload):
             #and update remote table
             #but do not do this if force upload is set to true
             if force_upload == False:
-                new_ua = upload_table(link=link,updatedon=datetime.datetime.now())
+              
+                new_ua = upload_table(t_serial=link,updatedon=datetime.datetime.now())
                 localsession.add(new_ua) #pylint: disable=maybe-no-member
                 localsession.commit() #pylint: disable=maybe-no-member
             #update the remote db
@@ -167,11 +169,15 @@ from bs4 import BeautifulSoup
 def get_link_from_html(link):
     with open(link,'rb') as f:
         html = f.read()
-
         soup = BeautifulSoup(html,'lxml')
         custom_data_tag = soup.find('div',{'id':'custom_data'})
         try:
-            link_name = custom_data_tag.find('h2',{'id':'current_url'}).text
+            link_name = custom_data_tag.find('h2',{'id':'trans_id'})
+            link_name = link_name.text
+
+           
+
+            
         except Exception as e:
             print(e)
             print(link)
