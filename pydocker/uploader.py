@@ -170,14 +170,13 @@ def get_link_from_html(link):
     with open(link,'rb') as f:
         html = f.read()
         soup = BeautifulSoup(html,'lxml')
+        input(soup)
         custom_data_tag = soup.find('div',{'id':'custom_data'})
+        input(custom_data_tag)
         try:
             link_name = custom_data_tag.find('h2',{'id':'trans_id'})
             link_name = link_name.text
 
-           
-
-            
         except Exception as e:
             print(e)
             print(link)
@@ -198,9 +197,10 @@ def watch_folder(force_upload=True):
     for directory in sub_directs:
         all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in all_html_files:
-            print(f'uploading {html_file}')
-            link_name = get_link_from_html(link=html_file)
-
+            # print(f'uploading {html_file}')
+            # link_name = get_link_from_html(link=html_file)
+            link_name = html_file.split('/')[1].replace('.html','')
+            
             if link_name == 'ERROR':
                 print(f'error in {html_file} ')
                 
