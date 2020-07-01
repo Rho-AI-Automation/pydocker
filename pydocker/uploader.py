@@ -279,10 +279,10 @@ def upload_current_folder(force_upload=True):
     directory = os.getcwd()
     all_html_files =  glob.glob(os.path.join(directory,'*.html'))
     for html_file in all_html_files:
-        input(html_file)
+        
         # print(f'uploading {html_file}')
         # link_name = get_link_from_html(link=html_file)
-        link_name = html_file.split('/')[1].replace('.html','')
+        link_name = html_file.split('/')[-1].replace('.html','')
         
         if link_name == 'ERROR':
             print(f'error in {html_file} ')
