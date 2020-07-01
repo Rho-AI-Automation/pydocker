@@ -19,5 +19,6 @@ setup(
                                         'urender=pydocker.pydocker:uchecker_render',
                                         'keepsplash=pydocker.splashim:keep_splash_running',
                                         'stopsplash=pydocker.splashim:stop_all_splash',
-                                        'bulkpcheck=pydocker.pydocker:bulk_gscrape']}
+                                        'bulkpcheck=pydocker.pydocker:bulk_gscrape',
+                                        'uploadthis=pydocker.uploader:upload_current_folder']}
 )

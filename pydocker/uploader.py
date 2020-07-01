@@ -263,9 +263,76 @@ def do_force_upload():
     watch_folder(force_upload=True)
 
 
+def upload_current_folder(force_upload=True):
+    global success_count
+    global old_numbers
+    global hist_dict
+    system('clear')
+    create_local_session() #open_session
+    create_remote_session() #close_session
+
+    
+    dictdata = dict()
+    directory = os.getcwd()
+    all_html_files =  glob.glob(os.path.join(directory,'*.html'))
+    for html_file in all_html_files:
+        # print(f'uploading {html_file}')
+        # link_name = get_link_from_html(link=html_file)
+        link_name = html_file.split('/')[1].replace('.html','')
+        
+        if link_name == 'ERROR':
+            print(f'error in {html_file} ')
+            
+            continue
+        was_uploaded = upload_remote(link_name,html_file,force_upload)
+
+        #delte file after upload to s3
+        if was_uploaded:
+            os.remove(html_file)
+            
+
+    #keeping the history
+    dictdata[directory] = len(all_html_files)
+    
+
+    print("{:<30} {:<15}".format('bucket_name','html_count'))
+    print('--------------------------------------------------')
+    #history of each folder
+    for k,v in dictdata.items():
+        hist_dict[k] = hist_dict.get(k,0) + int(v)
+
+
+    for k,v in hist_dict.items():
+        print ("{:<30} {:<15}".format(k.replace('/',''), v),flush=True)
+
+
+    
+    print('******************************************************')
+    localsession.commit() #pylint: disable=maybe-no-member
+    remotesession.commit() #pylint: disable=maybe-no-member
+    close_all_sessions() #close session
+    
+    set_actual_fail_upload = set(failed_files).difference(set(success_files)) 
+    print('failed upload')
+    print('----------')
+    for sq,el in enumerate(set_actual_fail_upload):
+        print(f'{sq}.{el}')
+    print('******************************************')
+    print('success upload')
+    print('----------')
+    for sq,el in enumerate(success_files):
+        print(f'{sq}.{el}')
+    success_count = success_count + len(success_files) 
+    print(f'total success upload : {success_count} total failed upload: {total_failed}')
+    print(f'updated on :{datetime.datetime.now()}')
+
+    success_files.clear()
+
+
+
 if __name__ == "__main__":
     # local_statusfile()
     # insert_local_status()
     #do_force_upload()
     #create_remote_session()
-    keep_update_loop()
+    upload_current_folder()
