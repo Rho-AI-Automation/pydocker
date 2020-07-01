@@ -5,6 +5,7 @@
 /pydocker/__pycache__/
 /bucket1
 /bucket2
+/bucket_uc_1 
 *.json
 *.db
 *.html
