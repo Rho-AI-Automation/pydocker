@@ -124,7 +124,7 @@ def upload_remote(link,local_file,force_upload):
     #query local db to ask if this link was already uploaded or not
     #if returned 0 it mean it was not uploaded previously and
     #uploading fresh
-    input(link)
+
     query_res_count = len(list(localsession.query(upload_table.t_serial).filter(upload_table.t_serial==link))) #pylint: disable=maybe-no-member
 
     #force uplod will ignore the local status
@@ -279,13 +279,13 @@ def upload_current_folder(force_upload=True):
     directory = os.getcwd()
     all_html_files =  glob.glob(os.path.join(directory,'*.html'))
     for html_file in all_html_files:
+        input(html_file)
         # print(f'uploading {html_file}')
         # link_name = get_link_from_html(link=html_file)
         link_name = html_file.split('/')[1].replace('.html','')
         
         if link_name == 'ERROR':
             print(f'error in {html_file} ')
-            
             continue
         was_uploaded = upload_remote(link_name,html_file,force_upload)
 
