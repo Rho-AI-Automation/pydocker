@@ -324,6 +324,11 @@ def gscraper_run(image_name,vpn,container_name):
     print('file olders created')
     docexec_gscrape(buckt_name=container_name,vpnserver=vpn)
 
+    run_command(buckt_name=container_name,screen_name='chdriver',command_name='singlechdriver')
+    print('chromedriver rendering engine fired')
+    run_command(buckt_name=container_name,screen_name='jsdom',command_name='singlejsdom')
+    print('jsdom rendering engine fired')
+
 
 def uchecker_run(vpn,container_name,image_name):
     
