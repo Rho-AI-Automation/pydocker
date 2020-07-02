@@ -244,7 +244,7 @@ def docexec_ucheck(buckt_name,vpnserver):
 
 def run_command(buckt_name,command_name,screen_name):
     
-    command_exec = f'docker exec {buckt_name} screen -S {screen_name} -d -m {command_name}'
+    command_exec = f'docker exec {buckt_name} screen -dmS {screen_name} -c "{command_name;exec bash}"'
     nrun = Popen(command_exec,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = nrun.communicate()
     if strerr:
