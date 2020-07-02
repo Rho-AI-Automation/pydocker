@@ -328,6 +328,9 @@ def gscraper_run(image_name,vpn,container_name):
     print('chromedriver rendering engine fired')
     run_command(buckt_name=container_name,screen_name='jsdom',command_name='singlejsdom')
     print('jsdom rendering engine fired')
+    run_command(buckt_name=container_name,screen_name='killer',command_name='pkiller')
+    print('process killer fired')
+
 
 
 def uchecker_run(vpn,container_name,image_name):
