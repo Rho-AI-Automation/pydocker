@@ -426,55 +426,6 @@ def uchecker_run(vpn,container_name,image_name):
     # doc_exec_splash_run(container_name)
 
 
-# @click.command()
-# @click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
-# @click.option('--bucketname', default='bucket_render', help='bucket name')
-# def uchecker_render(image_name,vpn,bucketname):
-#     container_name = bucketname
-#     vpnserver = vpn
-#     verify_root()
-
-    
-#     Popen('rsplash',shell=True)
-
-
-#     bucket_folder = os.path.join(os.getcwd(),container_name)
-#     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
-#     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
-#     stdout,strerr = drun.communicate()
-
-#     if strerr:
-#         print(strerr)
-#         print('\n')
-#         print('bucket already created, you must run commands manually inside it or stop bucket')
-#         raise ValueError('error while creating container')
-#     if stdout:
-#         print('image id')
-#         print('---------')
-#         print(stdout.decode('utf-8'))
-
-   
-#     create_files_gscrape(container_name=container_name)
-#     print('file olders created')
-
-#     nipchanger_command = f'docker exec {container_name} screen -S vpn -d -m {vpnserver}'
-
-#     nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
-#     stdout,strerr = nrun.communicate()
-#     if strerr:
-#         print(strerr)
-#     if stdout:
-#         print(stdout.decode('utf-8'))
-#     print(f'{vpnserver} executed ,executing url checker')
-#     progress_bar()
-#     print('running selenium')
-#     doc_exec_sel_run(container_name)
-#     print('running splash')
-#     doc_exec_splash_run(container_name)
-#     print('running single file')
-#     doc_exec_single_run(container_name)
-
-    
 
 
 @click.command()
@@ -498,7 +449,7 @@ def bulk_gscrape_google(vpn,image_name):
     
     for i in range(1,bucket_count+1):
         base_bucket = 'bucket'+str(i)
-        gscraper_run(container_name=base_bucket,vpn=vpn,image_name=image_name)
+        gscraper_run_google(container_name=base_bucket,vpn=vpn,image_name=image_name)
     
 
 @click.command()
@@ -509,7 +460,7 @@ def bulk_gscrape_jsdom(vpn,image_name):
     
     for i in range(1,bucket_count+1):
         base_bucket = 'bucket'+str(i)
-        gscraper_run(container_name=base_bucket,vpn=vpn,image_name=image_name)
+        gscraper_run_jsdom(container_name=base_bucket,vpn=vpn,image_name=image_name)
 
 
 @click.command()
@@ -520,7 +471,7 @@ def bulk_gscrape_chdriver(vpn,image_name):
     
     for i in range(1,bucket_count+1):
         base_bucket = 'bucket'+str(i)
-        gscraper_run(container_name=base_bucket,vpn=vpn,image_name=image_name)
+        gscraper_run_chdriver(container_name=base_bucket,vpn=vpn,image_name=image_name)
 
 
 if __name__ == "__main__":
