@@ -20,7 +20,7 @@ setup(
                                         'keepsplash=pydocker.splashim:keep_splash_running',
                                         'stopsplash=pydocker.splashim:stop_all_splash',
                                         'uploadthis=pydocker.uploader:upload_current_folder',
-                                        'uploadthis=pydocker.uploader:bulk_gscrape_google',
-                                        'uploadthis=pydocker.uploader:bulk_gscrape_jsdom',
-                                        'uploadthis=pydocker.uploader:bulk_gscrape_chdriver']}
+                                        'gscrape_google=pydocker.uploader:bulk_gscrape_google',
+                                        'gscrape_jsdom=pydocker.uploader:bulk_gscrape_jsdom',
+                                        'gscrape_chdriver=pydocker.uploader:bulk_gscrape_chdriver']}
 )
