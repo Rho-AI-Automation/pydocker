@@ -144,7 +144,6 @@ def docrun():
         print(stdout.decode('utf-8'))
 
 
-
 def docexec_gscrape(buckt_name,vpnserver):
     bucket_path = os.path.join(os.getcwd(),buckt_name)
     nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m {vpnserver}'
@@ -297,7 +296,66 @@ def create_files_gscrape(container_name='bucket1'):
 
 
 
-def gscraper_run(image_name,vpn,container_name):
+def gscraper_run_google(image_name,vpn,container_name):
+
+    if container_name is None:
+        container_name = input('Enter Container Name : ')
+
+    verify_root()
+    bucket_folder = os.path.join(os.getcwd(),container_name)
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
+    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = drun.communicate()
+
+    if strerr:
+        print(strerr)
+        print('\n')
+        print('bucket already created, you must run commands manually inside it or stop bucket')
+        raise ValueError('error while creating container')
+    if stdout:
+        print('image id')
+        print('---------')
+        print(stdout.decode('utf-8'))
+
+   
+    create_files_gscrape(container_name=container_name)
+    print('file olders created')
+    docexec_gscrape(buckt_name=container_name,vpnserver=vpn)
+
+
+def gscraper_run_jsdom(image_name,vpn,container_name):
+
+    if container_name is None:
+        container_name = input('Enter Container Name : ')
+
+    verify_root()
+    bucket_folder = os.path.join(os.getcwd(),container_name)
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
+    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = drun.communicate()
+
+    if strerr:
+        print(strerr)
+        print('\n')
+        print('bucket already created, you must run commands manually inside it or stop bucket')
+        raise ValueError('error while creating container')
+    if stdout:
+        print('image id')
+        print('---------')
+        print(stdout.decode('utf-8'))
+   
+    create_files_gscrape(container_name=container_name)
+    run_command(buckt_name=container_name,screen_name='vpn',command_name='vipchanger')
+    print('vpn fired')
+
+    print('file olders created')
+    print('jsdom rendering engine fired')
+    run_command(buckt_name=container_name,screen_name='jsdom',command_name='singlejsdom')
+    print('jsdom rendering engine fired')
+    run_command(buckt_name=container_name,screen_name='killer',command_name='pkiller')
+    print('process killer fired')
+
+def gscraper_run_chdriver(image_name,vpn,container_name):
 
     if container_name is None:
         container_name = input('Enter Container Name : ')
@@ -322,15 +380,12 @@ def gscraper_run(image_name,vpn,container_name):
    
     create_files_gscrape(container_name=container_name)
     print('file olders created')
-    docexec_gscrape(buckt_name=container_name,vpnserver=vpn)
-
+    run_command(buckt_name=container_name,screen_name='vpn',command_name='vipchanger')
+    print('vpn fired')
     run_command(buckt_name=container_name,screen_name='chdriver',command_name='singlechdriver')
     print('chromedriver rendering engine fired')
-    run_command(buckt_name=container_name,screen_name='jsdom',command_name='singlejsdom')
-    print('jsdom rendering engine fired')
     run_command(buckt_name=container_name,screen_name='killer',command_name='pkiller')
     print('process killer fired')
-
 
 
 def uchecker_run(vpn,container_name,image_name):
@@ -438,7 +493,7 @@ def bulk_ucheck(vpn,image_name):
 @click.command()
 @click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
 @click.option('--image_name',default='pkumdev/rho-ubuntu',prompt=True, help='vpn server ,nipchanger or vipchanger')
-def bulk_gscrape(vpn,image_name):
+def bulk_gscrape_google(vpn,image_name):
     bucket_count = int(input('Enter bucket count: '))
     
     for i in range(1,bucket_count+1):
@@ -446,7 +501,26 @@ def bulk_gscrape(vpn,image_name):
         gscraper_run(container_name=base_bucket,vpn=vpn,image_name=image_name)
     
 
+@click.command()
+@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
+@click.option('--image_name',default='pkumdev/rho-ubuntu',prompt=True, help='vpn server ,nipchanger or vipchanger')
+def bulk_gscrape_jsdom(vpn,image_name):
+    bucket_count = int(input('Enter bucket count: '))
+    
+    for i in range(1,bucket_count+1):
+        base_bucket = 'bucket'+str(i)
+        gscraper_run(container_name=base_bucket,vpn=vpn,image_name=image_name)
 
+
+@click.command()
+@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
+@click.option('--image_name',default='pkumdev/rho-ubuntu',prompt=True, help='vpn server ,nipchanger or vipchanger')
+def bulk_gscrape_chdriver(vpn,image_name):
+    bucket_count = int(input('Enter bucket count: '))
+    
+    for i in range(1,bucket_count+1):
+        base_bucket = 'bucket'+str(i)
+        gscraper_run(container_name=base_bucket,vpn=vpn,image_name=image_name)
 
 
 if __name__ == "__main__":
