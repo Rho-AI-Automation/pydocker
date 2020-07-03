@@ -346,6 +346,7 @@ def gscraper_run_jsdom(image_name,vpn,container_name):
    
     create_files_gscrape(container_name=container_name)
     run_command(buckt_name=container_name,screen_name='vpn',command_name='vipchanger')
+    progress_bar()
     print('vpn fired')
 
     print('file olders created')
@@ -381,6 +382,7 @@ def gscraper_run_chdriver(image_name,vpn,container_name):
     create_files_gscrape(container_name=container_name)
     print('file olders created')
     run_command(buckt_name=container_name,screen_name='vpn',command_name='vipchanger')
+    progress_bar()
     print('vpn fired')
     run_command(buckt_name=container_name,screen_name='chdriver',command_name='singlechdriver')
     print('chromedriver rendering engine fired')
