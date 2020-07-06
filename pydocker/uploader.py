@@ -204,9 +204,9 @@ def watch_folder(force_upload=True):
         for html_file in all_html_files:
             # print(f'uploading {html_file}')
             # link_name = get_link_from_html(link=html_file)
-            input(html_file)
+            # input(html_file)
             link_name = html_file.split('/')[-1].replace('.html','')
-            input(link_name)
+            # input(link_name)
 
             if link_name == 'ERROR':
                 print(f'error in {html_file} ')
