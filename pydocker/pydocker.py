@@ -95,7 +95,7 @@ def verify_root():
 def docreate():
     verify_root()
 
-    impage_name = input('enter image name: ')
+    impage_name = input('enter image name:[pkumdev/rho-ubuntu]')
     image_string = None
 
     image_string = f'docker build --no-cache -t {impage_name} --build-arg device=/dev/net/tun --build-arg sysctl=net.ipv6.conf.all.disable_ipv6=0 .'
