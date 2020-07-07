@@ -461,7 +461,7 @@ def bulk_gscrape_jsdom(vpn,image_name):
     bucket_count = int(input('Enter bucket count: '))
     
     for i in range(1,bucket_count+1):
-        base_bucket = 'bucket'+str(i)
+        base_bucket = 'bucket_jsdom'+str(i)
         gscraper_run_jsdom(container_name=base_bucket,vpn=vpn,image_name=image_name)
 
 
@@ -472,7 +472,7 @@ def bulk_gscrape_chdriver(vpn,image_name):
     bucket_count = int(input('Enter bucket count: '))
     
     for i in range(1,bucket_count+1):
-        base_bucket = 'bucket'+str(i)
+        base_bucket = 'bucket_chdr'+str(i)
         gscraper_run_chdriver(container_name=base_bucket,vpn=vpn,image_name=image_name)
 
 
