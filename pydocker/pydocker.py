@@ -415,10 +415,10 @@ def uchecker_run(vpn,container_name,image_name):
     docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
     print('urlchecker with CURL only executed')
     
-    run_command(buckt_name=container_name,screen_name='chdriver',command_name='singlechdriver')
-    print('chromedriver rendering engine fired')
-    run_command(buckt_name=container_name,screen_name='jsdom',command_name='singlejsdom')
-    print('jsdom rendering engine fired')
+    # run_command(buckt_name=container_name,screen_name='chdriver',command_name='singlechdriver')
+    # print('chromedriver rendering engine fired')
+    # run_command(buckt_name=container_name,screen_name='jsdom',command_name='singlejsdom')
+    # print('jsdom rendering engine fired')
 
 
     
