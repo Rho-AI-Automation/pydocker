@@ -204,7 +204,7 @@ def watch_folder(force_upload=True):
         all_json_files = glob.glob(folder_name + '/**/*.json', recursive=True)
         upload_list = all_html_files + all_json_files
         # all_html_files =  glob.glob(os.path.join(directory,'*.html'))
-        exceptoin_list = ['dbdata','config']
+        exceptoin_list = ['dbdata','config','direct_url']
         for html_file in upload_list:
 
             # print(f'uploading {html_file}')
