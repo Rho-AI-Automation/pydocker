@@ -189,7 +189,7 @@ def get_link_from_html(link):
 
 
 def is_good_file(link_name):
-    input(link_name)
+    
     exceptoin_list = ['dbdata','config','direct_url']
     ret_value = True
 
@@ -237,7 +237,7 @@ def watch_folder(force_upload=True):
             # input(html_file)
             link_name = html_file.split('/')[-1].replace('.html','')
             link_name = html_file.split('/')[-1].replace('.json','')
-            # input(link_name)
+            input(link_name)
 
             good_file = is_good_file(link_name=link_name)    
             if not good_file:
@@ -372,4 +372,4 @@ if __name__ == "__main__":
     # insert_local_status()
     #do_force_upload()
     #create_remote_session()
-    upload_current_folder()
+    watch_folder()
