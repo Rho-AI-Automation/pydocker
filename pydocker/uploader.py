@@ -197,6 +197,7 @@ def watch_folder(force_upload=True):
     sub_directs = glob.glob("*/")
     
     dictdata = dict()
+    
     for directory in sub_directs:
         folder_name = directory
         all_html_files = glob.glob(folder_name + '/**/*.html', recursive=True)
@@ -204,6 +205,7 @@ def watch_folder(force_upload=True):
         upload_list = all_html_files + all_json_files
         # all_html_files =  glob.glob(os.path.join(directory,'*.html'))
         for html_file in upload_list:
+            input(html_file)
             # print(f'uploading {html_file}')
             # link_name = get_link_from_html(link=html_file)
             # input(html_file)
