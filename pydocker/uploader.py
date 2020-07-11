@@ -187,6 +187,30 @@ def get_link_from_html(link):
         
         return link_name
 
+
+def is_good_file(link_name):
+    exceptoin_list = ['dbdata','config','direct_url']
+    ret_value = True
+
+    number_file = None
+
+    try:
+        number_file = int(link_name)
+    except ValueError:
+        pass
+
+
+    if link_name == 'ERROR' or link_name in exceptoin_list or number_file is None:
+        print(f'error in {link_name} ')
+        ret_value = False
+    
+    
+
+    return ret_value
+        
+
+
+
 def watch_folder(force_upload=True):
     global success_count
     global old_numbers
@@ -204,7 +228,7 @@ def watch_folder(force_upload=True):
         all_json_files = glob.glob(folder_name + '/**/*.json', recursive=True)
         upload_list = all_html_files + all_json_files
         # all_html_files =  glob.glob(os.path.join(directory,'*.html'))
-        exceptoin_list = ['dbdata','config','direct_url']
+       
         for html_file in upload_list:
 
             # print(f'uploading {html_file}')
@@ -214,9 +238,8 @@ def watch_folder(force_upload=True):
             link_name = html_file.split('/')[-1].replace('.json','')
             # input(link_name)
 
-            if link_name == 'ERROR' or link_name in exceptoin_list:
-                print(f'error in {html_file} ')
-                
+            good_file = is_good_file(link_name=link_name)    
+            if not good_file:
                 continue
             was_uploaded = upload_remote(link_name,html_file,force_upload)
 
