@@ -235,11 +235,10 @@ def watch_folder(force_upload=True):
             # print(f'uploading {html_file}')
             # link_name = get_link_from_html(link=html_file)
             # input(html_file)
-            input(html_file)
+
             link_name = html_file.split('/')[-1]
             link_name = link_name.replace('.html','')
             link_name = link_name.replace('.json','')
-            input(link_name)
 
             good_file = is_good_file(link_name=link_name)    
             if not good_file:
