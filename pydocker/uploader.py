@@ -189,6 +189,7 @@ def get_link_from_html(link):
 
 
 def is_good_file(link_name):
+    input(link_name)
     exceptoin_list = ['dbdata','config','direct_url']
     ret_value = True
 
