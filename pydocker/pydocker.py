@@ -477,7 +477,8 @@ def bulk_gscrape_chdriver(vpn,image_name):
 
 
 def doc_snoop():
-    container_string = f'docker run -it -d --rm --name snooper  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-render snoop'
+
+    container_string = f'docker run -it -d --rm --name snooper  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-render bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = drun.communicate()
 
@@ -485,7 +486,11 @@ def doc_snoop():
         print(strerr)
     if stdout:
         print(stdout)
+    run_command(buckt_name='snooper',command_name='nipchanger',screen_name='vpn')
+    progress_bar()
+    run_command(buckt_name='snooper',command_name='snoop',screen_name='snooper')
     
+     
 
 if __name__ == "__main__":
     doc_snoop()
