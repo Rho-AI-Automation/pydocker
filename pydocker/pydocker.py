@@ -490,10 +490,25 @@ def doc_snoop():
     progress_bar()
     run_command(buckt_name='snooper',command_name='snoop',screen_name='snooper')
     
+
+def doc_jsdom():
+
+    container_string = f'docker run -it -d --rm --name jsdom  --cap-add=NET_ADMIN -p 4000:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-dommer bash'
+    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = drun.communicate()
+
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout)
+    run_command(buckt_name='jsdom',command_name='nipchanger',screen_name='vpn')
+    progress_bar()
+    run_command(buckt_name='jsdom',command_name='jsdom',screen_name='snooper')
+    
      
 
 if __name__ == "__main__":
-    doc_snoop()
+    doc_jsdom()
     # bulk_gscrape()
     # doc_exec_sel_run('bucket1')
     # bulk_ucheck()

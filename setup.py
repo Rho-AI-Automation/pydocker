@@ -23,5 +23,6 @@ setup(
                                         'gscrape_google=pydocker.pydocker:bulk_gscrape_google',
                                         'gscrape_jsdom=pydocker.pydocker:bulk_gscrape_jsdom',
                                         'gscrape_chdriver=pydocker.pydocker:bulk_gscrape_chdriver',
-                                        'dsnooper=pydocker.pydocker:doc_snoop']}
+                                        'dsnooper=pydocker.pydocker:doc_snoop',
+                                        'dsjsdom=pydocker.pydocker:doc_jsdom']}
 )

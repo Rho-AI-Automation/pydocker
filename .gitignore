@@ -9,3 +9,8 @@
 *.json
 *.db
 *.html
+bup.log
+current_ip
+NSUCCESS.txt
+server.log
+vpnpass.txt
