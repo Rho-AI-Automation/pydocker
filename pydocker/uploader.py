@@ -201,10 +201,11 @@ def is_good_file(link_name):
         pass
 
 
-    if link_name == 'ERROR' or link_name in exceptoin_list or number_file is None:
+    if link_name == 'ERROR':
         print(f'error in {link_name} ')
         ret_value = False
-    
+    elif link_name in exceptoin_list or number_file is None:
+        ret_value = False
     
 
     return ret_value
