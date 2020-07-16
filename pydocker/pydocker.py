@@ -493,7 +493,7 @@ def doc_snoop():
 
 def doc_jsdom():
 
-    container_string = f'docker run -it -d --rm --name jsdom  --cap-add=NET_ADMIN -p 4000:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-dommer bash'
+    container_string = f'docker run -it -d --rm --name jsdom  --cap-add=NET_ADMIN -p 54420:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-dommer bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = drun.communicate()
 
@@ -503,7 +503,7 @@ def doc_jsdom():
         print(stdout)
     run_command(buckt_name='jsdom',command_name='nipchanger',screen_name='vpn')
     progress_bar()
-    run_command(buckt_name='jsdom',command_name='jsdom',screen_name='snooper')
+    run_command(buckt_name='jsdom',command_name='jsdom',screen_name='jsdom')
     
      
 
