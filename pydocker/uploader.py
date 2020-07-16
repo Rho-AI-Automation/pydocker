@@ -257,8 +257,8 @@ def watch_folder(force_upload=True):
     print("{:<30} {:<15}".format('bucket_name','html_count'))
     print('--------------------------------------------------')
     #history of each folder
-    for k,v in dictdata.items():
-        hist_dict[k] = hist_dict.get(k,0) + int(v)
+    # for k,v in dictdata.items():
+    #     hist_dict[k] = hist_dict.get(k,0) + int(v)
 
 
     for k,v in hist_dict.items():
