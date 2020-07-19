@@ -147,7 +147,7 @@ def docrun():
 def docexec_gscrape(buckt_name,vpnserver):
     bucket_path = os.path.join(os.getcwd(),buckt_name)
     nipchanger_command = f'docker exec {buckt_name} screen -S vpn -d -m {vpnserver}'
-    gscraper_command = f"docker exec -w {bucket_path} {buckt_name} screen -S scraper -d -m gscrape"
+    gscraper_command = f'docker exec -w {bucket_path} {buckt_name} screen -S scraper -d -m  sh -c "gscrape;exec bash"'
 
     nrun = Popen(nipchanger_command,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = nrun.communicate()
