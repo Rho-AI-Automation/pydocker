@@ -293,7 +293,10 @@ def keep_update_loop():
     ctr = 0
     while True:
         if ctr % 100 == 0:
-            os.remove('upload_satus.db')
+            try:
+                os.remove('upload_satus.db')
+            except FileNotFoundError:
+                print('upload_satus.db not found')
         watch_folder(force_upload=False)
         print('delay executing')
         sleep(wait_time)
