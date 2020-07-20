@@ -300,7 +300,7 @@ def keep_update_loop():
         watch_folder(force_upload=False)
         print('delay executing')
         sleep(wait_time)
-        ctr += ctr
+        ctr += 1
 
 def do_force_upload():
     print('**WARNING FORCE UPLOAD , UPLOAD INFO WILL NOT BE UPDATED TO LOCAL DB**')
