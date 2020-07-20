@@ -290,10 +290,14 @@ def watch_folder(force_upload=True):
 
 def keep_update_loop():
     wait_time = int(input('delay between upload : '))
+    ctr = 0
     while True:
+        if ctr % 100 == 0:
+            os.remove('upload_satus.db')
         watch_folder(force_upload=False)
         print('delay executing')
         sleep(wait_time)
+        ctr += ctr
 
 def do_force_upload():
     print('**WARNING FORCE UPLOAD , UPLOAD INFO WILL NOT BE UPDATED TO LOCAL DB**')
