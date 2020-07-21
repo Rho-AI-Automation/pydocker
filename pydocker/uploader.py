@@ -88,7 +88,7 @@ def create_local_session():
 
 def update_remote(link,awsurl):
 
-    data = remotesession.query(RemoteTable).filter(RemoteTable.t_serial ==link) #pylint: disable=maybe-no-member
+    data = remotesession.query(RemoteTable).with_for_update(nowait=True).filter(RemoteTable.t_serial ==link) #pylint: disable=maybe-no-member
     all_rows = list(data)
     
 
