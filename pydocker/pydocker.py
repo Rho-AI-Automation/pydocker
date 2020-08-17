@@ -391,10 +391,10 @@ def gscraper_run_chdriver(image_name,vpn,container_name):
 
 
 def uchecker_run(vpn,container_name,image_name):
-    
+    success_file = os.path.join(os.getcwd(),container_name,'NSUCCESS.txt')
     verify_root()
     bucket_folder = os.path.join(os.getcwd(),container_name)
-    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 -p 0.0.0.0:{int(container_name)}:5000 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,strerr = drun.communicate()
 
@@ -409,11 +409,27 @@ def uchecker_run(vpn,container_name,image_name):
         print(stdout.decode('utf-8'))
 
 
+    try:
+        os.remove(success_file)
+        print('existing success file deleted')
+    except Exception:
+        print('could not find/remove NSUCCESS')
+    
+    run_command(buckt_name=container_name,command_name='vipchanger',screen_name='vpn')
+    
+    while True:
+
+        try:
+            print('waiting for ip to be changed')
+            if os.path.exists(success_file):
+                print('ip has been changed')
+                break
+        except Exception:
+            pass
+        sleep(10)
+    
+    run_command(buckt_name=container_name,command_name='grunner',screen_name='grunner')
    
-    create_files_gscrape(container_name=container_name)
-    print('file olders created')
-    docexec_ucheck(buckt_name=container_name,vpnserver=vpn)
-    print('urlchecker with CURL only executed')
     
     # run_command(buckt_name=container_name,screen_name='chdriver',command_name='singlechdriver')
     # print('chromedriver rendering engine fired')
@@ -430,13 +446,18 @@ def uchecker_run(vpn,container_name,image_name):
 
 
 
-@click.command()
-@click.option('--vpn', default='nipchanger', help='vpn server ,nipchanger or vipchanger')
-@click.option('--image_name',default='pkumdev/rho-ubuntu',prompt=True, help='vpn server ,nipchanger or vipchanger')
-def bulk_ucheck(vpn,image_name):
+def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
     num_ins = int(input('number of containers you want to run: '))
-    for i in range(1,num_ins+1):
-        base_bucket = 'bucket_uc_'+str(i)
+
+    base_ip = 54420
+    list_ip =list()
+    for i in range(num_ins):
+        base_ip += 1 
+        list_ip.append(base_ip)
+        
+
+    for bc_name in list_ip:
+        base_bucket = str(bc_name)
         uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
 
     #rendering engline
@@ -489,9 +510,23 @@ def doc_snoop():
     run_command(buckt_name='snooper',command_name='nipchanger',screen_name='vpn')
     progress_bar()
     run_command(buckt_name='snooper',command_name='snoop',screen_name='snooper')
+
+def doc_snoop():
+
+    container_string = f'docker run -it -d --rm --name snooper  --cap-add=NET_ADMIN -p 5000:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-render bash'
+    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+    stdout,strerr = drun.communicate()
+
+    if strerr:
+        print(strerr)
+    if stdout:
+        print(stdout)
+    run_command(buckt_name='snooper',command_name='nipchanger',screen_name='vpn')
+    progress_bar()
+    run_command(buckt_name='snooper',command_name='snoop',screen_name='snooper')
     
 
-def doc_jsdom():
+def doc_uche():
 
     container_string = f'docker run -it -d --rm --name jsdom  --cap-add=NET_ADMIN -p 54420:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-dommer bash'
     drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
@@ -508,8 +543,7 @@ def doc_jsdom():
      
 
 if __name__ == "__main__":
-    doc_jsdom()
     # bulk_gscrape()
     # doc_exec_sel_run('bucket1')
-    # bulk_ucheck()
+    bulk_ucheck()
     pass
