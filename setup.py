@@ -8,14 +8,14 @@ import sys
 
 setup(
     name='pydocker',
-    version='2.0',
+    version='2.1',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
                                         'dcreate=pydocker.pydocker:docreate',
                                         'doscraper=pydocker.pydocker:gscraper_run',
                                         'dupload=pydocker.uploader:keep_update_loop',
                                         'fupload=pydocker.uploader:do_force_upload',
-                                        'uchecker=pydocker.pydocker:bulk_ucheck',
+                                        'pyuchecker=pydocker.pydocker:bulk_ucheck',
                                         'urender=pydocker.pydocker:uchecker_render',
                                         'keepsplash=pydocker.splashim:keep_splash_running',
                                         'stopsplash=pydocker.splashim:stop_all_splash',
