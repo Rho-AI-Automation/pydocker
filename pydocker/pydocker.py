@@ -8,6 +8,17 @@ import click
 import subprocess
 
 
+def stop_container_by_name(cname):
+    print(f'stopping {cname}')
+    client = docker.from_env()
+    all_containers = client.containers.list()
+    for container in all_containers:
+        name = container.attrs['Name'].replace('/','')
+        if name == cname:
+            container.stop()
+            print(f'{cname} stoppped')
+            break
+
 def progress_bar(bar_for=30):
     done = 0
     full_bar = 90
@@ -395,18 +406,20 @@ def uchecker_run(vpn,container_name,image_name):
     verify_root()
     bucket_folder = os.path.join(os.getcwd(),container_name)
     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 -p 0.0.0.0:{int(container_name)}:5000 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
-    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
-    stdout,strerr = drun.communicate()
 
-    if strerr:
-        print(strerr)
-        print('\n')
-        print('bucket already created, you must run commands manually inside it or stop bucket')
-        raise ValueError('error while creating container')
-    if stdout:
-        print('image id')
-        print('---------')
-        print(stdout.decode('utf-8'))
+    while True:
+        drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+        stdout,strerr = drun.communicate()
+        if strerr: 
+            print(strerr)
+            stop_container_by_name(str(container_name))
+        else:
+            print('container created')
+            break
+
+    print('image id')
+    print('---------')
+    print(stdout.decode('utf-8'))
 
 
     try:
@@ -442,7 +455,6 @@ def uchecker_run(vpn,container_name,image_name):
     # doc_exec_sel_run(container_name)
     # print('running splash')
     # doc_exec_splash_run(container_name)
-
 
 
 
@@ -550,7 +562,6 @@ def stop_all_containers(client):
         print(f'{image}:{name} stopped')
 
 
-
 import docker
 def bulk_ucheck_run():
     """
@@ -568,4 +579,5 @@ def bulk_ucheck_run():
 if __name__ == "__main__":
     # bulk_gscrape()
     # doc_exec_sel_run('bucket1')
-    bulk_ucheck_run()
+    #stop_container_by_name('54421')
+    bulk_ucheck()
