@@ -11,11 +11,12 @@ import subprocess
 def stop_container_by_name(cname):
     print(f'stopping {cname}')
     client = docker.from_env()
-    all_containers = client.containers.list()
+    all_containers = client.containers.list(all=True)
     for container in all_containers:
         name = container.attrs['Name'].replace('/','')
         if name == cname:
             container.stop()
+            container.remove(force=True)
             print(f'{cname} stoppped')
             break
 
@@ -579,5 +580,5 @@ def bulk_ucheck_run():
 if __name__ == "__main__":
     # bulk_gscrape()
     # doc_exec_sel_run('bucket1')
-    #stop_container_by_name('54421')
-    bulk_ucheck()
+    stop_container_by_name('54421')
+    #bulk_ucheck()
