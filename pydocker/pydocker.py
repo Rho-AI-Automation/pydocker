@@ -447,7 +447,7 @@ def uchecker_run(vpn,container_name,image_name):
 
 
 def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
-    num_ins = int(input('number of containers you want to run: '))
+    num_ins = 8 
 
     base_ip = 54420
     list_ip =list()
@@ -539,11 +539,32 @@ def doc_uche():
     run_command(buckt_name='jsdom',command_name='nipchanger',screen_name='vpn')
     progress_bar()
     run_command(buckt_name='jsdom',command_name='jsdom',screen_name='jsdom')
-    
-     
+
+
+def stop_all_containers(client):
+    dlist = client.containers.list()
+    for container in dlist:
+        image = container.image
+        name = container.attrs['Name']
+        container.stop()
+        print(f'{image}:{name} stopped')
+
+
+
+import docker
+def bulk_ucheck_run():
+    """
+        close all containers every 2 hours and re-start them
+    """
+    sleeptime = int(input('enter sleep time(hrs)'))
+    client = docker.from_env()
+    while True:
+        stop_all_containers(client=client)
+        sleep(30)
+        bulk_ucheck()
+        sleep(sleeptime * 3600)
 
 if __name__ == "__main__":
     # bulk_gscrape()
     # doc_exec_sel_run('bucket1')
-    bulk_ucheck()
-    pass
+    bulk_ucheck_run()

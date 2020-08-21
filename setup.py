@@ -16,13 +16,8 @@ setup(
                                         'dupload=pydocker.uploader:keep_update_loop',
                                         'fupload=pydocker.uploader:do_force_upload',
                                         'pyuchecker=pydocker.pydocker:bulk_ucheck',
-                                        'urender=pydocker.pydocker:uchecker_render',
-                                        'keepsplash=pydocker.splashim:keep_splash_running',
-                                        'stopsplash=pydocker.splashim:stop_all_splash',
-                                        'uploadthis=pydocker.uploader:upload_current_folder',
+                                        'bulkucheck=pydocker.pydocker:bulk_ucheck_run',
                                         'gscrape_google=pydocker.pydocker:bulk_gscrape_google',
-                                        'gscrape_jsdom=pydocker.pydocker:bulk_gscrape_jsdom',
-                                        'gscrape_chdriver=pydocker.pydocker:bulk_gscrape_chdriver',
                                         'dsnooper=pydocker.pydocker:doc_snoop',
                                         'dsjsdom=pydocker.pydocker:doc_jsdom']}
 )
