@@ -7,10 +7,12 @@ from time import sleep
 import click
 import subprocess
 
+import docker
+
+client = docker.from_env()
 
 def stop_container_by_name(cname):
     print(f'stopping {cname}')
-    client = docker.from_env()
     all_containers = client.containers.list(all=True)
     for container in all_containers:
         name = container.attrs['Name'].replace('/','')
@@ -563,7 +565,6 @@ def stop_all_containers(client):
         print(f'{image}:{name} stopped')
 
 
-import docker
 def bulk_ucheck_run():
     """
         close all containers every 2 hours and re-start them

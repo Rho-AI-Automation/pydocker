@@ -8,7 +8,7 @@ import sys
 
 setup(
     name='pydocker',
-    version='2.1',
+    version='2.2',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
                                         'dcreate=pydocker.pydocker:docreate',
