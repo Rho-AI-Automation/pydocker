@@ -562,6 +562,7 @@ def bulk_ucheck_run():
         stop_all_containers(client=client)
         sleep(30)
         bulk_ucheck()
+        print('completed , sleeping')
         sleep(sleeptime * 3600)
 
 if __name__ == "__main__":
