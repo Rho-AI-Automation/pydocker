@@ -18,7 +18,11 @@ def stop_container_by_name(cname):
         name = container.attrs['Name'].replace('/','')
         if name == cname:
             container.stop()
-            container.remove(force=True)
+            try:
+                container.remove(force=True)
+            except Exception:
+                print('unable to remove container')
+                sleep(5)
             print(f'{cname} stoppped')
             break
 
@@ -458,7 +462,49 @@ def uchecker_run(vpn,container_name,image_name):
     # doc_exec_sel_run(container_name)
     # print('running splash')
     # doc_exec_splash_run(container_name)
+def pchecker_run(vpn,container_name,image_name):
+    success_file = os.path.join(os.getcwd(),container_name,'NSUCCESS.txt')
+    verify_root()
+    bucket_folder = os.path.join(os.getcwd(),container_name)
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 -p 0.0.0.0:{int(container_name)}:5000 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
 
+    while True:
+        drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+        stdout,strerr = drun.communicate()
+        if strerr: 
+            print(strerr)
+            stop_container_by_name(str(container_name))
+        else:
+            print('container created')
+            break
+
+    print('image id')
+    print('---------')
+    print(stdout.decode('utf-8'))
+
+
+    try:
+        os.remove(success_file)
+        print('existing success file deleted')
+    except Exception:
+        print('could not find/remove NSUCCESS')
+    
+    run_command(buckt_name=container_name,command_name='vipchanger',screen_name='vpn')
+    
+    while True:
+
+        try:
+            print('waiting for ip to be changed')
+            if os.path.exists(success_file):
+                print('ip has been changed')
+                break
+        except Exception:
+            pass
+        sleep(10)
+    
+    run_command(buckt_name=container_name,command_name='prunner',screen_name='prunner')
+   
+ 
 
 
 def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
@@ -477,83 +523,28 @@ def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
 
     #rendering engline
 
+def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
+    num_ins = 8 
+    base_ip = 54420
+    list_ip =list()
+    for i in range(num_ins):
+        base_ip += 1 
+        list_ip.append(base_ip)
+        
+
+    for bc_name in list_ip:
+        base_bucket = str(bc_name)
+        pchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
+
+    #rendering engline
 
 
-@click.command()
-@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
-@click.option('--image_name',default='pkumdev/rho-ubuntu',prompt=True, help='vpn server ,nipchanger or vipchanger')
-def bulk_gscrape_google(vpn,image_name):
-    bucket_count = int(input('Enter bucket count: '))
-    
-    for i in range(1,bucket_count+1):
-        base_bucket = 'bucket'+str(i)
-        gscraper_run_google(container_name=base_bucket,vpn=vpn,image_name=image_name)
-    
 
-@click.command()
-@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
-@click.option('--image_name',default='pkumdev/rho-ubuntu',prompt=True, help='vpn server ,nipchanger or vipchanger')
-def bulk_gscrape_jsdom(vpn,image_name):
-    bucket_count = int(input('Enter bucket count: '))
-    
-    for i in range(1,bucket_count+1):
-        base_bucket = 'bucket_jsdom'+str(i)
-        gscraper_run_jsdom(container_name=base_bucket,vpn=vpn,image_name=image_name)
+   
 
 
-@click.command()
-@click.option('--vpn', default='vipchanger', help='vpn server ,nipchanger or vipchanger')
-@click.option('--image_name',default='pkumdev/rho-ubuntu',prompt=True, help='vpn server ,nipchanger or vipchanger')
-def bulk_gscrape_chdriver(vpn,image_name):
-    bucket_count = int(input('Enter bucket count: '))
-    
-    for i in range(1,bucket_count+1):
-        base_bucket = 'bucket_chdr'+str(i)
-        gscraper_run_chdriver(container_name=base_bucket,vpn=vpn,image_name=image_name)
 
-
-def doc_snoop():
-
-    container_string = f'docker run -it -d --rm --name snooper  --cap-add=NET_ADMIN -p 5000:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-render bash'
-    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
-    stdout,strerr = drun.communicate()
-
-    if strerr:
-        print(strerr)
-    if stdout:
-        print(stdout)
-    run_command(buckt_name='snooper',command_name='nipchanger',screen_name='vpn')
-    progress_bar()
-    run_command(buckt_name='snooper',command_name='snoop',screen_name='snooper')
-
-def doc_snoop():
-
-    container_string = f'docker run -it -d --rm --name snooper  --cap-add=NET_ADMIN -p 5000:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-render bash'
-    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
-    stdout,strerr = drun.communicate()
-
-    if strerr:
-        print(strerr)
-    if stdout:
-        print(stdout)
-    run_command(buckt_name='snooper',command_name='nipchanger',screen_name='vpn')
-    progress_bar()
-    run_command(buckt_name='snooper',command_name='snoop',screen_name='snooper')
-    
-
-def doc_uche():
-
-    container_string = f'docker run -it -d --rm --name jsdom  --cap-add=NET_ADMIN -p 54420:5000 --device /dev/net/tun --dns 8.8.8.8 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v $PWD:$PWD -w $PWD pkumdev/rho-dommer bash'
-    drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
-    stdout,strerr = drun.communicate()
-
-    if strerr:
-        print(strerr)
-    if stdout:
-        print(stdout)
-    run_command(buckt_name='jsdom',command_name='nipchanger',screen_name='vpn')
-    progress_bar()
-    run_command(buckt_name='jsdom',command_name='jsdom',screen_name='jsdom')
+   
 
 
 def stop_all_containers(client):
@@ -578,8 +569,21 @@ def bulk_ucheck_run():
         print('completed , sleeping')
         sleep(sleeptime * 3600)
 
+def bulk_pcheck_run():
+    """
+        close all containers every 2 hours and re-start them
+    """
+    sleeptime = int(input('enter sleep time(hrs)'))
+    client = docker.from_env()
+    while True:
+        stop_all_containers(client=client)
+        sleep(30)
+        bulk_pcheck()
+        print('completed , sleeping')
+        sleep(sleeptime * 3600)
 if __name__ == "__main__":
     # bulk_gscrape()
     # doc_exec_sel_run('bucket1')
-    stop_container_by_name('54421')
+    #stop_container_by_name('54421')
     #bulk_ucheck()
+    bulk_pcheck()
