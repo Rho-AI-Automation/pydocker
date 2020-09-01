@@ -564,7 +564,6 @@ def bulk_ucheck_run():
     client = docker.from_env()
     while True:
         stop_all_containers(client=client)
-        sleep(30)
         bulk_ucheck()
         print('completed , sleeping')
         sleep(sleeptime * 3600)
