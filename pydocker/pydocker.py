@@ -462,6 +462,31 @@ def uchecker_run(vpn,container_name,image_name):
     # doc_exec_sel_run(container_name)
     # print('running splash')
     # doc_exec_splash_run(container_name)
+
+def uchecker_run_crawlera(container_name,image_name):
+    verify_root()
+    bucket_folder = os.path.join(os.getcwd(),container_name)
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 -p 0.0.0.0:{int(container_name)}:5000 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
+
+    while True:
+        drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
+        stdout,strerr = drun.communicate()
+        if strerr: 
+            print(strerr)
+            stop_container_by_name(str(container_name))
+        else:
+            print('container created')
+            break
+
+    print('image id')
+    print('---------')
+    print(stdout.decode('utf-8'))
+
+    run_command(buckt_name=container_name,command_name='grunner',screen_name='grunner')
+   
+ 
+
+
 def pchecker_run(vpn,container_name,image_name):
     success_file = os.path.join(os.getcwd(),container_name,'NSUCCESS.txt')
     verify_root()
@@ -522,6 +547,26 @@ def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
         uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
 
     #rendering engline
+
+
+def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
+    num_ins = 13 
+
+    base_ip = 54420
+    list_ip =list()
+    for i in range(num_ins):
+        base_ip += 1 
+        list_ip.append(base_ip)
+        
+
+    for bc_name in list_ip:
+        base_bucket = str(bc_name)
+        uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
+
+    #rendering engline
+    crawlera_bucket = 54434
+    uchecker_run_crawlera(container_name=crawlera_bucket,image_name=image_name)
+
 
 def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
     num_ins = 8 
