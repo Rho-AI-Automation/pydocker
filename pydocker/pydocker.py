@@ -553,7 +553,7 @@ def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
     num_ins = 13 
     
      #rendering engline
-    crawlera_bucket = 54434
+    crawlera_bucket = "54434"
     uchecker_run_crawlera(container_name=crawlera_bucket,image_name=image_name)
 
 
@@ -647,4 +647,4 @@ if __name__ == "__main__":
     # doc_exec_sel_run('bucket1')
     #stop_container_by_name('54421')
     #bulk_ucheck()
-    bulk_pcheck()
+    bulk_ucheck_allclient()
