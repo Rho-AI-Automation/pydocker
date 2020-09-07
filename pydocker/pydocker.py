@@ -551,6 +551,11 @@ def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
 
 def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
     num_ins = 13 
+    
+     #rendering engline
+    crawlera_bucket = 54434
+    uchecker_run_crawlera(container_name=crawlera_bucket,image_name=image_name)
+
 
     base_ip = 54420
     list_ip =list()
@@ -563,11 +568,7 @@ def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
         base_bucket = str(bc_name)
         uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
 
-    #rendering engline
-    crawlera_bucket = 54434
-    uchecker_run_crawlera(container_name=crawlera_bucket,image_name=image_name)
-
-
+   
 def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
     num_ins = 8 
     base_ip = 54420
