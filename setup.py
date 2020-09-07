@@ -17,6 +17,6 @@ setup(
                                         'bulkucheck=pydocker.pydocker:bulk_ucheck_run',
                                         'bulkpcheck=pydocker.pydocker:bulk_pcheck_run',
                                         'gscrape_google=pydocker.pydocker:bulk_gscrape_google',
-                                        'bulkucheck_all=pydocker.pydocker:bulk_ucheck_allclient',
+                                        'bulkucheck_all=pydocker.pydocker:bulk_ucheck_run_allclient',
                                         ]}
 )

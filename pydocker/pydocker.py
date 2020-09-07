@@ -613,6 +613,22 @@ def bulk_ucheck_run():
         print('completed , sleeping')
         sleep(sleeptime * 3600)
 
+
+def bulk_ucheck_run_allclient():
+    """
+        close all containers every 2 hours and re-start them
+    """
+    sleeptime = int(input('enter sleep time(hrs)'))
+    client = docker.from_env()
+    while True:
+        stop_all_containers(client=client)
+        bulk_ucheck_allclient()
+        print('completed , sleeping')
+        sleep(sleeptime * 3600)
+
+
+
+
 def bulk_pcheck_run():
     """
         close all containers every 2 hours and re-start them
