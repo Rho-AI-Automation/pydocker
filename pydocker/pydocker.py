@@ -533,7 +533,7 @@ def pchecker_run(vpn,container_name,image_name):
 
 
 def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
-    num_ins = 8 
+    num_ins = 14 
 
     base_ip = 54420
     list_ip =list()
