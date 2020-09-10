@@ -8,7 +8,7 @@ import sys
 
 setup(
     name='pydocker',
-    version='2.6',
+    version='2.7',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
                                         'dupload=pydocker.uploader:keep_update_loop',

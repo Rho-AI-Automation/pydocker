@@ -550,10 +550,12 @@ def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
 
 
 def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
-    num_ins = 13 
+    num_ins = 15 
     
      #rendering engline
-    crawlera_bucket = "54434"
+    
+    local_no_ip = 54435
+    crawlera_bucket = "54440"
     uchecker_run_crawlera(container_name=crawlera_bucket,image_name=image_name)
 
 
@@ -567,6 +569,17 @@ def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
     for bc_name in list_ip:
         base_bucket = str(bc_name)
         uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
+
+
+    #run the container without ip
+    list_noip =list()
+    for i in range(54435,54441):
+        list_noip.append(base_ip)
+
+    for bc_name in list_ip:
+        base_bucket = str(bc_name)
+        uchecker_run_crawlera(container_name=crawlera_bucket,image_name=image_name)
+
 
    
 def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
@@ -604,7 +617,7 @@ def stop_all_containers(client):
 
 def bulk_ucheck_run():
     """
-        close all containers every 2 hours and re-start them
+        close all containers every sleeptime 2 hours and re-start them
     """
     sleeptime = int(input('enter sleep time(hrs)'))
     client = docker.from_env()
