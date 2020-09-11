@@ -557,8 +557,7 @@ def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
 
 
     for bc_name in range(54436,54441):
-        base_bucket = str(bc_name)
-        uchecker_run_crawlera(container_name=bc_name,image_name=image_name)
+        uchecker_run_crawlera(container_name=str(bc_name),image_name=image_name)
 
 
    
