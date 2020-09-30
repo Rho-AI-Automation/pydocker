@@ -6,7 +6,7 @@ import json
 from time import sleep
 import click
 import subprocess
-
+import threading
 import docker
 
 client = docker.from_env()
@@ -550,14 +550,22 @@ def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
 
 
 def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
-    
     for bc_name in range(54421,54436): 
         base_bucket = str(bc_name)
-        uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
+        #uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
+        gs = threading.Thread(target=uchecker_run,kwargs={'vpn':vpn,'container_name':base_bucket,'image_name':image_name})
+        gs.daemon = True
+        gs.start()
+        print('thread started')
 
 
     for bc_name in range(54436,54441):
-        uchecker_run_crawlera(container_name=str(bc_name),image_name=image_name)
+        #uchecker_run_crawlera(container_name=str(bc_name),image_name=image_name)
+        gs = threading.Thread(target=uchecker_run_crawlera,kwargs={'container_name':str(bc_name),'image_name':image_name})
+        gs.daemon = True
+        gs.start()
+        print('thread started')
+
 
 
    
