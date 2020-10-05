@@ -630,6 +630,41 @@ def bulk_ucheck_run_allclient():
 
 
 
+def bulk_ucheck_allclient_komal(vpn='vipchanger',image_name='pkumdev/allrender'):
+    #with vpn
+    for bc_name in range(54421,54429): 
+        base_bucket = str(bc_name)
+        gs = threading.Thread(target=uchecker_run,kwargs={'vpn':vpn,'container_name':base_bucket,'image_name':image_name})
+        gs.daemon = True
+        gs.start()
+        print('thread started')
+
+    for bc_name in range(54429,54431):
+        #uchecker_run_crawlera(container_name=str(bc_name),image_name=image_name)
+        gs = threading.Thread(target=uchecker_run_crawlera,kwargs={'container_name':str(bc_name),'image_name':image_name})
+        gs.daemon = True
+        gs.start()
+        print('thread started')
+
+
+def bulk_ucheck_run_allclient_komal():
+    """
+        close all containers every 2 hours and re-start them
+    """
+    sleeptime = int(input('enter sleep time(hrs)'))
+    client = docker.from_env()
+    while True:
+        stop_all_containers(client=client)
+        bulk_ucheck_allclient_komal()
+        print('completed , sleeping')
+        sleep(sleeptime * 3600)
+
+
+
+
+
+
+
 def bulk_pcheck_run():
     """
         close all containers every 2 hours and re-start them

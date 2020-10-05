@@ -8,7 +8,7 @@ import sys
 
 setup(
     name='pydocker',
-    version='2.8',
+    version='2.9',
     packages=['pydocker'],
     entry_points ={'console_scripts': ['drun = pydocker.pydocker:docrun',
                                         'dupload=pydocker.uploader:keep_update_loop',
@@ -18,5 +18,6 @@ setup(
                                         'bulkpcheck=pydocker.pydocker:bulk_pcheck_run',
                                         'gscrape_google=pydocker.pydocker:bulk_gscrape_google',
                                         'bulkucheck_all=pydocker.pydocker:bulk_ucheck_run_allclient',
+                                        'bulkucheck_k=pydocker.pydocker:bulk_ucheck_run_allclient_komal',
                                         ]}
 )
