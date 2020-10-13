@@ -570,27 +570,21 @@ def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
 
    
 def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
-    num_ins = 8 
+
+    num_ins = 50 
     base_ip = 54420
     list_ip =list()
     for i in range(num_ins):
         base_ip += 1 
         list_ip.append(base_ip)
         
-
+    #these are for snoop2 rendering engine
     for bc_name in list_ip:
-        base_bucket = str(bc_name)
-        pchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
+        gs = threading.Thread(target=pchecker_run,kwargs={'container_name':str(bc_name),'image_name':image_name})
 
+    
     #rendering engline
 
-
-
-   
-
-
-
-   
 
 
 def stop_all_containers(client):

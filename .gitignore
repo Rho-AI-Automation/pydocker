@@ -15,3 +15,4 @@ NSUCCESS.txt
 server.log
 vpnpass.txt
 /54421
+*.LOCK
