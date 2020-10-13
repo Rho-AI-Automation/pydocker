@@ -581,6 +581,10 @@ def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
     #these are for snoop2 rendering engine
     for bc_name in list_ip:
         gs = threading.Thread(target=pchecker_run,kwargs={'container_name':str(bc_name),'image_name':image_name})
+        gs.daemon = True
+        gs.start()
+        print('thread started')
+
 
     
     #rendering engline
@@ -667,10 +671,11 @@ def bulk_pcheck_run():
     client = docker.from_env()
     while True:
         stop_all_containers(client=client)
-        sleep(30)
         bulk_pcheck()
         print('completed , sleeping')
         sleep(sleeptime * 3600)
+
+
 if __name__ == "__main__":
     # bulk_gscrape()
     # doc_exec_sel_run('bucket1')
