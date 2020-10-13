@@ -580,7 +580,7 @@ def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
         
     #these are for snoop2 rendering engine
     for bc_name in list_ip:
-        gs = threading.Thread(target=pchecker_run,kwargs={'container_name':str(bc_name),'image_name':image_name})
+        gs = threading.Thread(target=pchecker_run,kwargs={'vpn':'vipchanger','container_name':str(bc_name),'image_name':image_name})
         gs.daemon = True
         gs.start()
         print('thread started')
