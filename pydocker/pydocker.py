@@ -434,6 +434,10 @@ def uchecker_run(vpn,container_name,image_name):
         print('existing success file deleted')
     except Exception:
         print('could not find/remove NSUCCESS')
+
+    #run nodejs prerender
+    # https://github.com/prerender/prerender.git 
+    run_command(buckt_name=container_name,command_name='node /prerender/server.js',screen_name='prerender')
     
     run_command(buckt_name=container_name,command_name='vipchanger',screen_name='vpn')
     
@@ -550,7 +554,7 @@ def bulk_ucheck(vpn='vipchanger',image_name='pkumdev/allrender'):
 
 
 def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
-    for bc_name in range(54421,54436): 
+    for bc_name in range(54421,54422): 
         base_bucket = str(bc_name)
         #uchecker_run(vpn=vpn,container_name=base_bucket,image_name=image_name)
         gs = threading.Thread(target=uchecker_run,kwargs={'vpn':vpn,'container_name':base_bucket,'image_name':image_name})
@@ -681,4 +685,5 @@ if __name__ == "__main__":
     # doc_exec_sel_run('bucket1')
     #stop_container_by_name('54421')
     #bulk_ucheck()
-    bulk_ucheck_allclient()
+    uchecker_run(vpn='vipchanger',container_name='54421',image_name='pkumdev/allrender')
+    #bulk_ucheck_allclient()
