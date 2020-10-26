@@ -486,6 +486,7 @@ def uchecker_run_crawlera(container_name,image_name):
     print('---------')
     print(stdout.decode('utf-8'))
 
+    run_command(buckt_name=container_name,command_name='node /prerender/server.js',screen_name='prerender')
     run_command(buckt_name=container_name,command_name='grunner',screen_name='grunner')
    
  
