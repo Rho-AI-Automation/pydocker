@@ -437,7 +437,7 @@ def uchecker_run(vpn,container_name,image_name):
 
     #run nodejs prerender
     # https://github.com/prerender/prerender.git 
-    run_command(buckt_name=container_name,command_name='node /prerender/server.js',screen_name='prerender')
+    #run_command(buckt_name=container_name,command_name='xvfb-run node /prerender/server.js',screen_name='prerender')
     
     run_command(buckt_name=container_name,command_name='vipchanger',screen_name='vpn')
     
@@ -486,7 +486,7 @@ def uchecker_run_crawlera(container_name,image_name):
     print('---------')
     print(stdout.decode('utf-8'))
 
-    run_command(buckt_name=container_name,command_name='node /prerender/server.js',screen_name='prerender')
+    run_command(buckt_name=container_name,command_name='xvfb-run node /prerender/server.js',screen_name='prerender')
     run_command(buckt_name=container_name,command_name='grunner',screen_name='grunner')
    
  
@@ -519,7 +519,7 @@ def pchecker_run(vpn,container_name,image_name):
     except Exception:
         print('could not find/remove NSUCCESS')
     
-    run_command(buckt_name=container_name,command_name='node /prerender/server.js',screen_name='prerender')
+    run_command(buckt_name=container_name,command_name='xvfb-run node /prerender/server.js',screen_name='prerender')
     run_command(buckt_name=container_name,command_name='vipchanger',screen_name='vpn')
     
     while True:
