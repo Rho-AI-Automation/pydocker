@@ -496,7 +496,10 @@ def pchecker_run(vpn,container_name,image_name):
     success_file = os.path.join(os.getcwd(),container_name,'NSUCCESS.txt')
     verify_root()
     bucket_folder = os.path.join(os.getcwd(),container_name)
-    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 -p 0.0.0.0:{int(container_name)}:5000 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
+    prerender_port_last = str(container_name)[-1]
+    prerender_port = str('300'+prerender_port_last) 
+    prerender_port = int(prerender_port) 
+    container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 -p 0.0.0.0:{int(container_name)}:5000 0.0.0.0:{prerender_port}:3000    --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
 
     while True:
         drun = Popen(container_string,shell=True,stdout=PIPE,stderr=PIPE)
