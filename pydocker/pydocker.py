@@ -579,7 +579,7 @@ def bulk_ucheck_allclient(vpn='vipchanger',image_name='pkumdev/allrender'):
    
 def bulk_pcheck(vpn='vipchanger',image_name='pkumdev/allrender'):
 
-    num_ins = 31 
+    num_ins = 11 
     base_ip = 54420
     list_ip =list()
     for i in range(num_ins):
