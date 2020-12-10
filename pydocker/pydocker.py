@@ -435,10 +435,9 @@ def uchecker_run(vpn,container_name,image_name):
     except Exception:
         print('could not find/remove NSUCCESS')
 
-    #run nodejs prerender
-    # https://github.com/prerender/prerender.git 
-    #run_command(buckt_name=container_name,command_name='xvfb-run node /prerender/server.js',screen_name='prerender')
     
+    #prerender runis not required since it will will be handled by docker itself
+    #run_command(buckt_name=container_name,command_name='xvfb-run -a node /prerender/server.js',screen_name='prerender')
     run_command(buckt_name=container_name,command_name='vipchanger',screen_name='vpn')
     
     while True:
@@ -454,20 +453,12 @@ def uchecker_run(vpn,container_name,image_name):
     
     run_command(buckt_name=container_name,command_name='grunner',screen_name='grunner')
    
-    
-    # run_command(buckt_name=container_name,screen_name='chdriver',command_name='singlechdriver')
-    # print('chromedriver rendering engine fired')
-    # run_command(buckt_name=container_name,screen_name='jsdom',command_name='singlejsdom')
-    # print('jsdom rendering engine fired')
-
-
-    
-    # print('running selenium')
-    # doc_exec_sel_run(container_name)
-    # print('running splash')
-    # doc_exec_splash_run(container_name)
 
 def uchecker_run_crawlera(container_name,image_name):
+
+    #Dont foolded by name, this is function has nothing to do with crawlera
+    #it is used just so that no vpn is run for this conainer
+    
     verify_root()
     bucket_folder = os.path.join(os.getcwd(),container_name)
     container_string = f'docker run -it -d --rm --name {container_name}  --cap-add=NET_ADMIN --device /dev/net/tun --dns 8.8.8.8 -p 0.0.0.0:{int(container_name)}:5000 --sysctl net.ipv6.conf.all.disable_ipv6=0 -v {bucket_folder}:{bucket_folder} -w {bucket_folder} {image_name} bash'
@@ -486,7 +477,8 @@ def uchecker_run_crawlera(container_name,image_name):
     print('---------')
     print(stdout.decode('utf-8'))
 
-    run_command(buckt_name=container_name,command_name='xvfb-run node /prerender/server.js',screen_name='prerender')
+    #prerender runis not required since it will will be handled by docker itself
+    #run_command(buckt_name=container_name,command_name='xvfb-run -a node /prerender/server.js',screen_name='prerender')
     run_command(buckt_name=container_name,command_name='grunner',screen_name='grunner')
    
  
@@ -520,8 +512,10 @@ def pchecker_run(vpn,container_name,image_name):
         print('existing success file deleted')
     except Exception:
         print('could not find/remove NSUCCESS')
-    
-    run_command(buckt_name=container_name,command_name='xvfb-run node /prerender/server.js',screen_name='prerender')
+
+
+    #prerender runis not required since it will will be handled by docker itself
+    #run_command(buckt_name=container_name,command_name='xvfb-run -a node /prerender/server.js',screen_name='prerender')
     run_command(buckt_name=container_name,command_name='vipchanger',screen_name='vpn')
     
     while True:
